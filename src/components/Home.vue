@@ -1,7 +1,7 @@
 
 <template>
   <b-container>
-    <table class="table table-hover table-borderless">
+    <table class="table table-hover">
       <thead>
         <tr>
           <th></th>
@@ -13,13 +13,14 @@
           <th>GF</th>
           <th>GA</th>
           <th>Pts</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,i) in info" :key="i">
+        <tr v-for="(item,i) in standings" :key="i">
           <td>{{ item.position }}</td>
           <td>
-            <img :src="item.team.crestUrl" class="team-badge" />
+            <img :src="item.team.crestUrl" class="team-badge" v-b-modal="'showBadge' + i" />
           </td>
           <td>{{item.playedGames}}</td>
           <td>{{item.won}}</td>
@@ -28,10 +29,21 @@
           <td>{{item.goalsFor}}</td>
           <td>{{item.goalsAgainst}}</td>
           <td>{{item.points}}</td>
+          <td>
+            <b-button variant="outline-primary" v-b-modal="'modalId' + i">Info</b-button>
+          </td>
         </tr>
       </tbody>
     </table>
     <b-table striped hover :items="items"></b-table>
+    <b-modal
+      :id="'modalId' + i"
+      v-for="(item,i) in standings"
+      :key="'teamDetails'+ i"
+    >Hello {{item.team.name}}</b-modal>
+    <b-modal :id="'showBadge' + i" v-for="(item,i) in standings" :key="'badge'+ i">
+      <img :src="item.team.crestUrl" class="team-badge-full" alt />
+    </b-modal>
   </b-container>
 </template>
 
@@ -39,57 +51,31 @@
 
 
 <script>
-import axios from "axios";
-
+import { dummyItems } from "../service/dummyData";
+import getData from "../service/apiCalls";
 export default {
   data() {
     return {
-      fields: [
-        { key: "position", label: "Position" },
-        { key: "team.crestUrl", label: "Crest" },
-        { key: "team.name", label: "Team Name" }
-      ],
-      info2: [
-        {
-          draw: 1,
-          goalDifference: 23,
-          goalsAgainst: 14,
-          goalsFor: 37,
-          lost: 0,
-          playedGames: 15,
-          points: 43,
-          position: 1,
-          team: {
-            id: 64,
-            name: "Liverpool FC",
-            crestUrl:
-              "http://upload.wikimedia.org/wikipedia/de/0/0a/FC_Liverpool.svg"
-          }
-        }
-      ],
-      info: [],
-      log: null,
-      items2: null,
-      items: [
-        { age: 40, first_name: "john", last_name: "Macdonald" },
-        { age: 21, first_name: "Larsen", last_name: "Shaw" },
-        { age: 89, first_name: "Geneva", last_name: "Wilson" },
-        { age: 38, first_name: "Jami", last_name: "Carney" }
-      ]
+      showBadgeFull: false,
+      standings: [],
+      items: dummyItems
     };
   },
-  created() {
-    axios
-      .get("http://api.football-data.org/v2/competitions/PL/standings", {
-        headers: { "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b" }
-      })
-      .then(response => {
-        return (
-          console.log(response.data.standings[0].table),
-          (this.info = response.data.standings[0].table),
-          console.log("info:", this.info)
+  methods: {
+    getStandings() {
+      getData
+        .get("standings")
+        .then(
+          response => (
+            console.log(response.data.standings[0].table),
+            (this.standings = response.data.standings[0].table),
+            console.log("standings:", this.standins)
+          )
         );
-      });
+    }
+  },
+  created() {
+    this.getStandings();
   }
 };
 </script>
