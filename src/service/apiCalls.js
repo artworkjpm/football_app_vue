@@ -1,6 +1,6 @@
 import axios from "axios";
 export default axios.create({
-  baseURL: "http://api.football-data.org/v2/competitions/PL/",
+  baseURL: "https://api.football-data.org/v2/competitions/PL/",
   timeout: 5000,
   headers: {
     "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b"

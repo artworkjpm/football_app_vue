@@ -47,9 +47,6 @@
   </b-container>
 </template>
 
-
-
-
 <script>
 import { dummyItems } from "../service/dummyData";
 import getData from "../service/apiCalls";
