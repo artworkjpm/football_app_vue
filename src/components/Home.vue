@@ -1,7 +1,6 @@
-
 <template>
   <b-container>
-    <table class="table table-hover">
+    <table class="table table-hover table-responsive">
       <thead>
         <tr>
           <th></th>
@@ -17,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,i) in standings" :key="i">
+        <tr v-for="(item,i) in standings" :key="i" :class="defineColor(i)">
           <td>{{ item.position }}</td>
           <td>
             <img :src="item.team.crestUrl" class="team-badge" v-b-modal="'showBadge' + i" />
@@ -62,13 +61,13 @@ export default {
     getStandings() {
       getData
         .get("standings")
-        .then(
-          response => (
-            console.log(response.data.standings[0].table),
-            (this.standings = response.data.standings[0].table),
-            console.log("standings:", this.standins)
-          )
-        );
+        .then(response => {
+          this.standings = response.data.standings[0].table;
+        })
+        .catch(error => console.log(error));
+    },
+    defineColor(i) {
+      console.log("index: ", i);
     }
   },
   created() {
