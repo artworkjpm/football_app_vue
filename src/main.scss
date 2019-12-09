@@ -3,6 +3,11 @@
 .table {
   width: unset;
 }
+
+.table th,
+.table td {
+  padding: 0.5rem;
+}
 .team-badge {
   height: 50px;
   cursor: pointer;
