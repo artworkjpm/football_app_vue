@@ -14,22 +14,26 @@ export default {
   data() {
     return {
       standings: [],
+      year: "2019",
       standingType: "TOTAL"
     };
   },
   methods: {
     getStandings() {
       getData
-        .get("standings?standingType=" + this.standingType)
+        .get(
+          "standings?season=" + this.year + "&standingType=" + this.standingType
+        )
         .then(response => {
           this.standings = response.data.standings[0].table;
         })
         .catch(error => console.log(error));
     },
 
-    onDropDownType(type) {
-      console.log("from parent: ", type);
-      this.standingType = type;
+    onDropDownType(typeObj) {
+      console.log("from parent: ", typeObj);
+      this.standingType = typeObj.standingType;
+      this.year = typeObj.year;
       this.getStandings();
     }
   },
