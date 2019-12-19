@@ -1,17 +1,6 @@
 <template>
   <div class="row">
-    <div class="col col-sm-4 col-md-4 col-lg-2">
-      <b-form-group label="Season">
-        <b-form-select v-model="year" :options="optionYears" @change="onChange('Year')" />
-      </b-form-group>
-      <b-form-group label="Type of games">
-        <b-form-select
-          v-model="standingType"
-          :options="options"
-          @change="onChange('standingType')"
-        />
-      </b-form-group>
-    </div>
+    <DropDownType @standingType="onDropDownType" />
     <div class="col">
       <table class="table table-responsive">
         <thead>
@@ -80,36 +69,16 @@
 </template>
 
 <script>
+import DropDownType from "./DropDownType.vue";
 export default {
   name: "LeagueTable",
+  components: { DropDownType },
   props: {
     standings: {
       type: Array
     }
   },
-
-  data() {
-    return {
-      standingType: "TOTAL",
-      options: [
-        { value: "TOTAL", text: "Total" },
-        { value: "HOME", text: "Home" },
-        { value: "AWAY", text: "Away" }
-      ],
-      year: this.getYear(),
-      optionYears: [
-        { value: "2019", text: "2019-20" },
-        { value: "2018", text: "2018-19" },
-        { value: "2017", text: "2017-18" }
-      ]
-    };
-  },
   methods: {
-    getYear() {
-      var d = new Date();
-      var n = d.getFullYear();
-      return n;
-    },
     defineColor(item) {
       if (item.position === 1) {
         return "alert-success";
@@ -121,11 +90,7 @@ export default {
         return "alert-danger";
       }
     },
-    onChange() {
-      const typeObj = {
-        standingType: this.$data.standingType,
-        year: this.$data.year
-      };
+    onDropDownType(typeObj) {
       this.$emit("standingType", typeObj);
     }
   }

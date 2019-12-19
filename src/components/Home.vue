@@ -7,6 +7,7 @@
 import LeagueTable from "./LeagueTable.vue";
 import getData from "../service/apiCalls";
 export default {
+  name: "Home",
   components: {
     LeagueTable
   },
@@ -14,11 +15,16 @@ export default {
   data() {
     return {
       standings: [],
-      year: "2019",
+      year: this.getYear(),
       standingType: "TOTAL"
     };
   },
   methods: {
+    getYear() {
+      var d = new Date();
+      var n = d.getFullYear();
+      return n;
+    },
     getStandings() {
       getData
         .get(
