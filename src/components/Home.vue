@@ -1,20 +1,35 @@
 <template>
   <div class="container mt-3">
-    <LeagueTable :standings="standings" @standingType="onDropDownType" />
+    <div>
+      <b-tabs content-class="mt-3">
+        <b-tab title="Standings" active>
+          <LeagueTable :standings="standings" @standingType="onDropDownType" />
+        </b-tab>
+        <b-tab title="Fixtures">
+          <Fixtures :fixtures="fixtures" />
+        </b-tab>
+        <b-tab title="Scorers">
+          <p>I'm a disabled tab!</p>
+        </b-tab>
+      </b-tabs>
+    </div>
   </div>
 </template>
 <script>
-import LeagueTable from "./LeagueTable.vue";
+import LeagueTable from "./LeagueTable";
+import Fixtures from "./Fixtures";
 import getData from "../service/apiCalls";
 export default {
   name: "Home",
   components: {
-    LeagueTable
+    LeagueTable,
+    Fixtures
   },
 
   data() {
     return {
       standings: [],
+      fixtures: [],
       year: this.getYear(),
       standingType: "TOTAL"
     };
@@ -35,9 +50,17 @@ export default {
         })
         .catch(error => console.log(error));
     },
+    getFixtures() {
+      getData
+        .get("matches?status=SCHEDULED")
+        .then(response => {
+          this.fixtures = response.data.matches;
+          console.log(this.fixtures);
+        })
+        .catch(error => console.log(error));
+    },
 
     onDropDownType(typeObj) {
-      console.log("from parent: ", typeObj);
       this.standingType = typeObj.standingType;
       this.year = typeObj.year;
       this.getStandings();
@@ -45,6 +68,7 @@ export default {
   },
   created() {
     this.getStandings();
+    this.getFixtures();
   }
 };
 </script>

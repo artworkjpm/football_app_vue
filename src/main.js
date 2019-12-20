@@ -4,7 +4,7 @@ import BootstrapVue from "bootstrap-vue";
 import router from "./router";
 import "./main.scss";
 
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue)
 
 new Vue({
   render: h => h(App),
