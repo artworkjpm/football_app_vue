@@ -1,14 +1,20 @@
 <template>
   <div>
-    <table class="table table-responsive" v-for="(item, i) in this.newArrayFixtures" :key="i">
+    <table class="table" v-for="(item, i) in this.newArrayFixtures" :key="i">
       <thead>
-        <tr>
-          <th>{{ item[i].date }}</th>
+        <tr class="alert-info">
+          <th class="text-nowrap">{{ item[0].date }}</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(fix, i) in item" :key="i">
-          <td>{{ fix.home }} {{ fix.time }} {{ fix.away }}</td>
+          <td class="text-right">{{ fix.home }}</td>
+          <td>
+            <b-badge>{{ fix.time }}</b-badge>
+          </td>
+          <td>{{ fix.away }}</td>
         </tr>
       </tbody>
     </table>
@@ -30,23 +36,7 @@ export default {
     }
   },
   methods: {
-    callDate(date, dateType) {
-      const date1 = new Date(date);
-      if (dateType === "fullDate") {
-        return moment(date1).format("ddd, MMMM Do YYYY");
-      } else {
-        return moment(date1).format("HH:mm");
-      }
-    },
     newArray() {
-      let newArray = Array.from(this.$props.fixtures, x =>
-        moment(x.utcDate).format("ddd, MMMM Do YYYY")
-      );
-      newArray = [...new Set(newArray)];
-      return (this.cleanedDates = newArray);
-      //return console.log(this.cleanedDates);
-    },
-    newArray2() {
       let newArray = Array.from(this.$props.fixtures, x => {
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY"),
@@ -55,8 +45,8 @@ export default {
           away: x.awayTeam.name
         };
       });
-      return (this.cleanedFixtureDates = newArray);
-      //console.log("this.cleanedFixtureDates", this.cleanedFixtureDates);
+
+      return (this.cleanedFixtureDates = newArray), this.arrayFilter();
     },
     arrayFilter() {
       let grouppedObjectByDate = this.cleanedFixtureDates.reduce(
@@ -68,15 +58,13 @@ export default {
       );
       grouppedObjectByDate = Object.values(grouppedObjectByDate);
       this.newArrayFixtures = grouppedObjectByDate;
-      console.log(this.newArrayFixtures);
+      //console.log(this.newArrayFixtures);
     }
   },
 
   watch: {
     fixtures() {
       this.newArray();
-      this.newArray2();
-      this.arrayFilter();
     }
   }
 };

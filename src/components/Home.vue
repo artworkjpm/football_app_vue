@@ -42,7 +42,9 @@ export default {
     },
     getStandings() {
       getData
-        .get("standings?season=" + this.year + "&standingType=" + this.standingType)
+        .get(
+          "standings?season=" + this.year + "&standingType=" + this.standingType
+        )
         .then(response => {
           this.standings = response.data.standings[0].table;
         })
@@ -50,10 +52,10 @@ export default {
     },
     getFixtures() {
       getData
-        .get("matches?status=SCHEDULED&matchday=18")
+        .get("matches?status=SCHEDULED")
         .then(response => {
           this.fixtures = response.data.matches;
-          console.log(this.fixtures);
+          console.log("this.fixtures: ", this.fixtures);
         })
         .catch(error => console.log(error));
     },
