@@ -1,6 +1,10 @@
 <template>
   <div>
-    <table class="table" v-for="(item, i) in this.newArrayFixtures" :key="i">
+    <table
+      class="table-responsive table adjust"
+      v-for="(item, i) in this.newArrayFixtures"
+      :key="i"
+    >
       <thead>
         <tr class="alert-info">
           <th class="text-nowrap">{{ item[0].date }}</th>
@@ -10,11 +14,11 @@
       </thead>
       <tbody>
         <tr v-for="(fix, i) in item" :key="i">
-          <td class="text-right">{{ fix.home }}</td>
+          <td class="text-right text-nowrap">{{ fix.home }}</td>
           <td>
             <b-badge>{{ fix.time }}</b-badge>
           </td>
-          <td>{{ fix.away }}</td>
+          <td class="text-nowrap">{{ fix.away }}</td>
         </tr>
       </tbody>
     </table>

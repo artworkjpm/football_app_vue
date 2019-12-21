@@ -23,3 +23,10 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+@media only screen and (max-width: 450px) {
+  .adjust {
+    font-size: 80%;
+    font-weight: 400;
+  }
+}
