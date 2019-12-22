@@ -2,7 +2,7 @@
   <div class="row">
     <DropDownType @standingType="onDropDownType" />
     <div class="col">
-      <table class="table table-responsive">
+      <table class="league-table table table-responsive">
         <thead>
           <tr>
             <th></th>
@@ -14,14 +14,18 @@
             <th>GF</th>
             <th>GA</th>
             <th>Pts</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,i) in standings" :key="i" :class="defineColor(item)">
+          <tr
+            v-for="(item,i) in standings"
+            :key="i"
+            :class="defineColor(item)"
+            v-b-modal="'modalId' + i"
+          >
             <td class="pr-0">{{ item.position }}</td>
             <td class="pl-0">
-              <img :src="item.team.crestUrl" class="team-badge" v-b-modal="'showBadge' + i" />
+              <img :src="item.team.crestUrl" class="team-badge" />
             </td>
             <td>{{item.playedGames}}</td>
             <td>{{item.won}}</td>
@@ -30,49 +34,26 @@
             <td>{{item.goalsFor}}</td>
             <td>{{item.goalsAgainst}}</td>
             <td>{{item.points}}</td>
-            <td>
-              <b-button variant="primary" v-b-modal="'modalId' + i">Info</b-button>
-            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="col">
-      <table class="table table-responsive">
-        <tbody>
-          <tr class="alert-success">
-            <td>Winners</td>
-          </tr>
-          <tr class="alert-primary">
-            <td>Champions League</td>
-          </tr>
-          <tr class="alert-warning">
-            <td>Europa League</td>
-          </tr>
-          <tr class="alert-danger">
-            <td>Relegation</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <LeagueLegend />
+    <ModalContent :standings="standings" />
 
-    <b-modal
-      :id="'modalId' + i"
-      v-for="(item,i) in standings"
-      :key="'teamDetails'+ i"
-    >Hello {{item.team.name}}</b-modal>
-
-    <b-modal :id="'showBadge' + i" v-for="(item,i) in standings" :key="'badge'+ i">
+    <!-- <b-modal :id="'showBadge' + i" v-for="(item,i) in standings" :key="'badge'+ i">
       <img :src="item.team.crestUrl" class="team-badge-full" alt />
-    </b-modal>
+    </b-modal>-->
   </div>
 </template>
 
 <script>
 import DropDownType from "./DropDownType.vue";
+import LeagueLegend from "./LeagueLegend";
+import ModalContent from "./ModalContent";
 export default {
   name: "LeagueTable",
-  components: { DropDownType },
+  components: { DropDownType, LeagueLegend, ModalContent },
   props: {
     standings: {
       type: Array

@@ -1,5 +1,5 @@
 <template>
-  <div class="col col-sm-4 col-md-4 col-lg-2">
+  <div class="col">
     <b-form-group label="Season">
       <b-form-select v-model="year" :options="optionYears" @change="onChange()" />
     </b-form-group>
