@@ -8,17 +8,15 @@
       <thead>
         <tr class="alert-info">
           <th class="text-nowrap">{{ item[0].date }}</th>
-          <th></th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(fix, i) in item" :key="i">
-          <td class="text-right text-nowrap">{{ fix.home }}</td>
-          <td>
+          <td class="text-nowrap">
+            <span class="text-right leftx">{{ fix.home }}</span>
             <b-badge>{{ fix.time }}</b-badge>
+            <span class="rightx">{{ fix.away }}</span>
           </td>
-          <td class="text-nowrap">{{ fix.away }}</td>
         </tr>
       </tbody>
     </table>

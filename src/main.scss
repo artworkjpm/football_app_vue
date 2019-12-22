@@ -9,7 +9,7 @@
   padding: 0.5rem;
 }
 .team-badge {
-  height: 50px;
+  height: 40px;
   cursor: pointer;
   display: block;
   margin-left: auto;
@@ -24,9 +24,31 @@
   margin-right: auto;
 }
 
+.adjust {
+  table-layout: fixed;
+  width: 100%;
+  .badge {
+    position: relative;
+    top: -5px;
+    margin: 0 10px;
+  }
+  .leftx,
+  .rightx {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    width: 150px;
+  }
+}
 @media only screen and (max-width: 450px) {
   .adjust {
     font-size: 80%;
     font-weight: 400;
+
+    .leftx,
+    .rightx {
+      width: 100px;
+    }
   }
 }
