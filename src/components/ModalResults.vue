@@ -42,7 +42,7 @@ export default {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY - HH:mm"),
           home: x.homeTeam.name,
           away: x.awayTeam.name,
-          score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.homeTeam
+          score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam
         };
       });
 
