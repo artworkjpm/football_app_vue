@@ -38,11 +38,13 @@
 .adjust {
   table-layout: fixed;
   width: 100%;
+  margin-bottom: unset;
   .badge {
     position: relative;
     top: -5px;
     margin: 0 10px;
     font-size: 100%;
+    line-height: 1.2;
   }
   .leftx,
   .rightx {

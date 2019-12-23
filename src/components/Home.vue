@@ -47,6 +47,7 @@ export default {
         )
         .then(response => {
           this.standings = response.data.standings[0].table;
+          console.log("standings: ", this.standings);
         })
         .catch(error => console.log(error));
     },

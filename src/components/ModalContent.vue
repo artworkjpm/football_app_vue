@@ -28,9 +28,9 @@ import ModalResults from "./ModalResults";
 export default {
   name: "ModalContent",
   props: {
-    standings: {
-      type: Array
-    }
+    standings: Array,
+    teamId: [Function, Number],
+    indexTeam: [Function, Number]
   },
   components: { ModalResults },
   data() {
@@ -39,9 +39,9 @@ export default {
     };
   },
   methods: {
-    getResults() {
+    getResults(teamId) {
       getData.getTeamResults
-        .get("58/matches?status=FINISHED")
+        .get(teamId + "/matches?status=FINISHED")
         .then(response => {
           this.results = response.data.matches;
           console.log("this.results: ", this.results);
@@ -49,8 +49,13 @@ export default {
         .catch(error => console.log(error));
     }
   },
-  created() {
-    this.getResults();
+
+  watch: {
+    teamId() {
+      let teamId = this.$props.teamId;
+      console.log("teamId watched: ", teamId);
+      teamId && this.getResults(teamId);
+    }
   }
 };
 </script>

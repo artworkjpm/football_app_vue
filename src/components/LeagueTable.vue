@@ -21,6 +21,7 @@
             v-for="(item,i) in standings"
             :key="i"
             :class="defineColor(item)"
+            @click="getTeamId(item.team.id)"
             v-b-modal="'modalId' + i"
           >
             <td class="pr-0">{{ item.position }}</td>
@@ -39,7 +40,7 @@
       </table>
     </div>
     <LeagueLegend />
-    <ModalContent :standings="standings" />
+    <ModalContent :standings="standings" :teamId="teamId" />
   </div>
 </template>
 
@@ -49,6 +50,11 @@ import LeagueLegend from "./LeagueLegend";
 import ModalContent from "./ModalContent";
 export default {
   name: "LeagueTable",
+  data() {
+    return {
+      teamId: Number
+    };
+  },
   components: { DropDownType, LeagueLegend, ModalContent },
   props: {
     standings: {
@@ -56,6 +62,10 @@ export default {
     }
   },
   methods: {
+    getTeamId(teamId) {
+      console.log("league Table: ", teamId);
+      this.teamId = teamId;
+    },
     defineColor(item) {
       if (item.position === 1) {
         return "alert-success";
