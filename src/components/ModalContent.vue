@@ -29,8 +29,7 @@ export default {
   name: "ModalContent",
   props: {
     standings: Array,
-    teamId: [Function, Number],
-    indexTeam: [Function, Number]
+    teamId: [Function, Object]
   },
   components: { ModalResults },
   data() {
@@ -41,10 +40,10 @@ export default {
   methods: {
     getResults(teamId) {
       getData.getTeamResults
-        .get(teamId + "/matches?status=FINISHED")
+        .get(teamId.teamId + "/matches?status=FINISHED")
         .then(response => {
           this.results = response.data.matches;
-          console.log("this.results: ", this.results);
+          this.$bvModal.show("modalId" + teamId.teamIndex);
         })
         .catch(error => console.log(error));
     }
@@ -53,8 +52,8 @@ export default {
   watch: {
     teamId() {
       let teamId = this.$props.teamId;
-      console.log("teamId watched: ", teamId);
-      teamId && this.getResults(teamId);
+      this.teamId = teamId;
+      this.getResults(this.teamId);
     }
   }
 };
