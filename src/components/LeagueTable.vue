@@ -40,10 +40,6 @@
     </div>
     <LeagueLegend />
     <ModalContent :standings="standings" />
-
-    <!-- <b-modal :id="'showBadge' + i" v-for="(item,i) in standings" :key="'badge'+ i">
-      <img :src="item.team.crestUrl" class="team-badge-full" alt />
-    </b-modal>-->
   </div>
 </template>
 

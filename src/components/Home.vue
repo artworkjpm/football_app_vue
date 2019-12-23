@@ -41,7 +41,7 @@ export default {
       return n;
     },
     getStandings() {
-      getData
+      getData.getPLData
         .get(
           "standings?season=" + this.year + "&standingType=" + this.standingType
         )
@@ -51,7 +51,7 @@ export default {
         .catch(error => console.log(error));
     },
     getFixtures() {
-      getData
+      getData.getPLData
         .get("matches?status=SCHEDULED")
         .then(response => {
           this.fixtures = response.data.matches;

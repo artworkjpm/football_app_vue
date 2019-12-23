@@ -1,10 +1,6 @@
 <template>
   <div>
-    <table
-      class="table-responsive table adjust"
-      v-for="(item, i) in this.newArrayFixtures"
-      :key="i"
-    >
+    <table class="table-responsive table adjust" v-for="(item, i) in newArrayFixtures" :key="i">
       <thead>
         <tr class="alert-info">
           <th class="text-nowrap">{{ item[0].date }}</th>
@@ -27,7 +23,6 @@ import moment from "moment";
 export default {
   data() {
     return {
-      cleanedDates: [],
       cleanedFixtureDates: [],
       newArrayFixtures: []
     };

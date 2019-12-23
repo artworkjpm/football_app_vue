@@ -1,11 +1,22 @@
 import axios from "axios";
-export default axios.create({
-  baseURL: "https://api.football-data.org/v2/competitions/PL/",
-  timeout: 5000,
-  headers: {
-    "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b"
-  }
-});
+const headers = {
+  "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b"
+}
+export default {
+  getPLData: axios.create({
+    baseURL: "https://api.football-data.org/v2/competitions/PL/",
+    timeout: 5000,
+    headers
+  }),
+  getTeamResults: axios.create({
+    baseURL: "https://api.football-data.org/v2/teams/",
+    timeout: 5000,
+    headers
+  })
+
+
+
+}
 
 /* const token = {
     headers: { "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b" }
