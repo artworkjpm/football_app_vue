@@ -35,8 +35,6 @@ export default {
 
   methods: {
     newArray() {
-      console.log(this.$props.results);
-      console.log(this.$props.teamName);
       let newArray = Array.from(this.$props.results, x => {
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY - HH:mm"),
@@ -70,7 +68,6 @@ export default {
     },
     getClassBadge(res) {
       let teamClicked = this.$props.teamName;
-      console.log(res.winner);
       if (res.winner === "DRAW") {
         return "badge-warning";
       } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
