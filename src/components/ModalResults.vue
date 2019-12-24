@@ -2,16 +2,16 @@
   <div>
     <table class="table-responsive table adjust" v-for="(res, i) in resultsFormated" :key="i">
       <thead>
-        <tr class="alert-info">
-          <th class="text-nowrap">{{ res.date}}</th>
+        <tr>
+          <th class="text-nowrap font-weight-lighter font-italic">{{ res.date}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr :class="getClassResult(res)">
           <td class="text-nowrap">
-            <span class="text-right leftx">{{ res.home }}</span>
-            <b-badge>{{ res.score }}</b-badge>
-            <span class="rightx">{{ res.away }}</span>
+            <span class="text-right leftx" :class="getClass(res.home)">{{ res.home }}</span>
+            <b-badge :class="getClassResult(res)">{{ res.score }}</b-badge>
+            <span class="rightx" :class="getClass(res.away)">{{ res.away }}</span>
           </td>
         </tr>
       </tbody>
@@ -24,38 +24,62 @@ import moment from "moment";
 export default {
   data() {
     return {
-      resultsFormated: [],
-      newArrayResults: []
+      resultsFormated: []
     };
   },
   name: "ModalResults",
   props: {
-    results: {
-      type: Array
-    }
+    results: Array,
+    teamName: String
   },
 
   methods: {
     newArray() {
+      console.log(this.$props.results);
+      console.log(this.$props.teamName);
       let newArray = Array.from(this.$props.results, x => {
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY - HH:mm"),
           home: x.homeTeam.name,
           away: x.awayTeam.name,
-          score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam
+          score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam,
+          selectedTeam: this.$props.teamName,
+          winner: x.score.winner
         };
       });
-
       return (this.resultsFormated = newArray);
     },
-    arrayFilter() {
-      let grouppedObjectByDate = this.resultsFormated.reduce((acc, item) => {
-        (acc[item.date] || (acc[item.date] = [])).push(item);
-        return acc;
-      }, {});
-      grouppedObjectByDate = Object.values(grouppedObjectByDate);
-      this.newArrayResults = grouppedObjectByDate;
-      console.log(this.newArrayResults);
+    getClass(teamModal) {
+      let teamClicked = this.$props.teamName;
+      return {
+        "font-weight-bold": teamClicked === teamModal
+      };
+    },
+    getClassResult(res) {
+      let teamClicked = this.$props.teamName;
+      console.log(res.winner);
+      if (res.winner === "DRAW") {
+        return "alert-warning";
+      } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
+        return "alert-success";
+      } else if (res.winner === "AWAY_TEAM" && res.away === teamClicked) {
+        return "alert-success";
+      } else {
+        return "alert-danger";
+      }
+    },
+    getClassBadge(res) {
+      let teamClicked = this.$props.teamName;
+      console.log(res.winner);
+      if (res.winner === "DRAW") {
+        return "badge-warning";
+      } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
+        return "badge-success";
+      } else if (res.winner === "AWAY_TEAM" && res.away === teamClicked) {
+        return "badge-success";
+      } else {
+        return "badge-danger";
+      }
     }
   },
 
