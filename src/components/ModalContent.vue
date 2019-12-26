@@ -40,9 +40,8 @@ export default {
   },
   methods: {
     getResults(teamId) {
-      let teamIdx = teamId;
       getData.getTeamResults
-        .get(teamIdx.teamId + "/matches?status=FINISHED")
+        .get(teamId.teamId + "/matches?status=FINISHED")
         .then(response => {
           this.results = response.data.matches;
           this.teamName = teamId.teamName;
@@ -52,10 +51,12 @@ export default {
     }
   },
 
-  created() {
-    let teamId = this.$props.teamId;
-    this.teamId = teamId;
-    this.getResults(this.teamId);
+  watch: {
+    teamId() {
+      let teamId = this.$props.teamId;
+      this.teamId = teamId;
+      this.getResults(this.teamId);
+    }
   }
 };
 </script>

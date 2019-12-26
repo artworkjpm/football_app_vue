@@ -75,6 +75,18 @@ export default {
       } else {
         return "alert-danger";
       }
+    },
+    getClassBadge(res) {
+      let teamClicked = this.$props.teamName;
+      if (res.winner === "DRAW") {
+        return "badge-warning";
+      } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
+        return "badge-success";
+      } else if (res.winner === "AWAY_TEAM" && res.away === teamClicked) {
+        return "badge-success";
+      } else {
+        return "badge-danger";
+      }
     }
   },
 
