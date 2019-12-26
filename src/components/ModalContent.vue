@@ -9,7 +9,7 @@
       </template>
       <b-tabs content-class="mt-3">
         <b-tab title="Results" active>
-          <ModalResults :results="results" :teamName="teamName" />
+          <ModalResults :results="results" :team="team" />
         </b-tab>
         <b-tab title="Fixtures"></b-tab>
         <b-tab title="Scorers"></b-tab>
@@ -35,17 +35,21 @@ export default {
   data() {
     return {
       results: [],
-      teamName: String
+      team: Object,
+      teamIdIndex: Number
     };
   },
   methods: {
     getResults(teamId) {
+      console.log("running");
       getData.getTeamResults
-        .get(teamId.teamId + "/matches?status=FINISHED")
+        .get(teamId.team.id + "/matches?status=FINISHED")
         .then(response => {
           this.results = response.data.matches;
-          this.teamName = teamId.teamName;
-          this.$bvModal.show("modalId" + teamId.teamIndex);
+          this.teamId = teamId;
+          this.teamIdIndex = teamId.positionIndex;
+          console.log("modalId" + this.teamIdIndex);
+          this.$bvModal.show("modalId" + this.teamIdIndex);
         })
         .catch(error => console.log(error));
     }
