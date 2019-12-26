@@ -22,7 +22,7 @@
             v-for="(item,i) in standings"
             :key="i"
             :class="defineColor(item)"
-            @click="getTeamId(item.team.id, i, item.team.name)"
+            @click="getTeamId(item.team.id, i, item.team.name, item.playedGames, item.won, item.draw, item.lost)"
           >
             <td>{{ item.position }}</td>
             <td>
@@ -73,11 +73,15 @@ export default {
       }
     },
 
-    getTeamId(teamId, index, teamName) {
+    getTeamId(teamId, index, teamName, played, won, draw, lost) {
       let teamIdObj = {
         teamId: teamId,
         teamIndex: index,
-        teamName
+        teamName,
+        played,
+        won,
+        draw,
+        lost
       };
       return (this.teamId = teamIdObj);
     },

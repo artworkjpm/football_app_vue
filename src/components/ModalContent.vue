@@ -9,7 +9,7 @@
       </template>
       <b-tabs content-class="mt-3">
         <b-tab title="Results" active>
-          <ModalResults :results="results" :teamName="teamName" />
+          <ModalResults :results="results" :teamName="teamName" :teamDetails="teamDetails" />
         </b-tab>
         <b-tab title="Fixtures"></b-tab>
         <b-tab title="Scorers"></b-tab>
@@ -35,16 +35,25 @@ export default {
   data() {
     return {
       results: [],
-      teamName: String
+      teamName: String,
+      teamDetails: Object
     };
   },
   methods: {
     getResults(teamId) {
+      console.log("getResults teamid: ", teamId);
+
       getData.getTeamResults
         .get(teamId.teamId + "/matches?status=FINISHED")
         .then(response => {
           this.results = response.data.matches;
           this.teamName = teamId.teamName;
+          this.teamDetails = {
+            played: teamId.played,
+            won: teamId.won,
+            draw: teamId.draw,
+            lost: teamId.lost
+          };
           this.$bvModal.show("modalId" + teamId.teamIndex);
         })
         .catch(error => console.log(error));
@@ -53,8 +62,7 @@ export default {
 
   watch: {
     teamId() {
-      let teamId = this.$props.teamId;
-      this.teamId = teamId;
+      this.teamId = this.$props.teamId;
       this.getResults(this.teamId);
     }
   }

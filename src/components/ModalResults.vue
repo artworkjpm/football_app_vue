@@ -3,9 +3,11 @@
     <table class="typeLegend small">
       <thead>
         <tr>
-          <th class="alert-success text-center">Won</th>
-          <th class="alert-warning text-center">Drew</th>
-          <th class="alert-danger text-center">Lost</th>
+          <th class="alert-info text-center">{{resultsFormated[0].competition}}</th>
+          <th class="text-center">Played: {{teamDetails.played}}</th>
+          <th class="alert-success text-center">Won: {{teamDetails.won}}</th>
+          <th class="alert-warning text-center">Drew: {{teamDetails.draw}}</th>
+          <th class="alert-danger text-center">Lost: {{teamDetails.lost}}</th>
         </tr>
       </thead>
     </table>
@@ -13,7 +15,13 @@
     <table class="table-responsive table adjust" v-for="(res, i) in resultsFormated" :key="i">
       <thead>
         <tr>
-          <th class="text-nowrap font-weight-normal font-italic">{{ res.date}}</th>
+          <th class="text-nowrap">
+            <span class="text-right font-weight-normal font-italic">
+              {{res.competition}}
+              <br />
+              {{ res.date}}
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -40,11 +48,14 @@ export default {
   name: "ModalResults",
   props: {
     results: Array,
-    teamName: String
+    teamName: String,
+    teamDetails: Object
   },
 
   methods: {
     newArray() {
+      console.log("results: ", this.$props.results);
+
       let newArray = Array.from(this.$props.results, x => {
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY - HH:mm"),
@@ -52,7 +63,8 @@ export default {
           away: x.awayTeam.name,
           score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam,
           selectedTeam: this.$props.teamName,
-          winner: x.score.winner
+          winner: x.score.winner,
+          competition: x.competition.name
         };
       });
       return (this.resultsFormated = newArray);
@@ -73,18 +85,6 @@ export default {
         return "alert-success";
       } else {
         return "alert-danger";
-      }
-    },
-    getClassBadge(res) {
-      let teamClicked = this.$props.teamName;
-      if (res.winner === "DRAW") {
-        return "badge-warning";
-      } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
-        return "badge-success";
-      } else if (res.winner === "AWAY_TEAM" && res.away === teamClicked) {
-        return "badge-success";
-      } else {
-        return "badge-danger";
       }
     }
   },
