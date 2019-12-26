@@ -40,14 +40,12 @@ export default {
   },
   methods: {
     getResults(teamId) {
-      console.log("teammmmmmm: ", teamId);
-
       getData.getTeamResults
-        .get(teamId.team.id + "/matches?status=FINISHED")
+        .get(teamId.teamId + "/matches?status=FINISHED")
         .then(response => {
           this.results = response.data.matches;
           this.teamName = teamId.teamName;
-          this.$bvModal.show("modalId" + (teamId.position - 1));
+          this.$bvModal.show("modalId" + teamId.teamIndex);
         })
         .catch(error => console.log(error));
     }
