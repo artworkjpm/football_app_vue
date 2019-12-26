@@ -65,7 +65,6 @@ export default {
     },
     getClassResult(res) {
       let teamClicked = this.$props.teamName;
-      console.log(res.winner);
       if (res.winner === "DRAW") {
         return "alert-warning";
       } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
