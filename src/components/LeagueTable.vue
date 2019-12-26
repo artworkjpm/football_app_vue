@@ -2,18 +2,19 @@
   <div class="row">
     <DropDownType @standingType="onDropDownType" />
     <div class="col">
-      <table class="league-table table table-responsive">
+      <table class="league-table table table-responsive small">
         <thead>
           <tr>
             <th></th>
             <th></th>
+            <th>Pts</th>
             <th>MP</th>
             <th>W</th>
             <th>L</th>
             <th>D</th>
             <th>GF</th>
             <th>GA</th>
-            <th>Pts</th>
+            <th>GD</th>
           </tr>
         </thead>
         <tbody>
@@ -23,17 +24,18 @@
             :class="defineColor(item)"
             @click="getTeamId(item.team.id, i, item.team.name)"
           >
-            <td class="pr-0">{{ item.position }}</td>
-            <td class="pl-0">
+            <td>{{ item.position }}</td>
+            <td>
               <img :src="item.team.crestUrl" class="team-badge" />
             </td>
+            <td>{{item.points}}</td>
             <td>{{item.playedGames}}</td>
             <td>{{item.won}}</td>
             <td>{{item.lost}}</td>
             <td>{{item.draw}}</td>
             <td>{{item.goalsFor}}</td>
             <td>{{item.goalsAgainst}}</td>
-            <td>{{item.points}}</td>
+            <td>{{goalDiff(item.goalsFor, item.goalsAgainst)}}</td>
           </tr>
         </tbody>
       </table>
@@ -51,7 +53,8 @@ export default {
   name: "LeagueTable",
   data() {
     return {
-      teamId: Object
+      teamId: Object,
+      goalDiffMath: Number
     };
   },
   components: { DropDownType, LeagueLegend, ModalContent },
@@ -61,6 +64,15 @@ export default {
     }
   },
   methods: {
+    goalDiff(item1, item2) {
+      const doMath = item1 - item2;
+      if (doMath < 0) {
+        return (this.goalDiffMath = doMath);
+      } else {
+        return (this.goalDiffMath = "+" + doMath);
+      }
+    },
+
     getTeamId(teamId, index, teamName) {
       let teamIdObj = {
         teamId: teamId,

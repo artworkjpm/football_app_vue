@@ -1,9 +1,19 @@
 <template>
   <div>
+    <table class="typeLegend small">
+      <thead>
+        <tr>
+          <th class="alert-success text-center">Won</th>
+          <th class="alert-warning text-center">Drew</th>
+          <th class="alert-danger text-center">Lost</th>
+        </tr>
+      </thead>
+    </table>
+
     <table class="table-responsive table adjust" v-for="(res, i) in resultsFormated" :key="i">
       <thead>
         <tr>
-          <th class="text-nowrap font-weight-lighter font-italic">{{ res.date}}</th>
+          <th class="text-nowrap font-weight-normal font-italic">{{ res.date}}</th>
         </tr>
       </thead>
       <tbody>
