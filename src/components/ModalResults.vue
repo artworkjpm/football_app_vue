@@ -3,10 +3,9 @@
     <table class="typeLegend small">
       <thead>
         <tr>
-          <th class="text-center">Played: {{teamObject.played}}</th>
-          <th class="alert-success text-center">Won:</th>
-          <th class="alert-warning text-center">Drew:</th>
-          <th class="alert-danger text-center">Lost:</th>
+          <th class="alert-success text-center">Won</th>
+          <th class="alert-warning text-center">Drew</th>
+          <th class="alert-danger text-center">Lost</th>
         </tr>
       </thead>
     </table>
@@ -35,14 +34,13 @@ import moment from "moment";
 export default {
   data() {
     return {
-      resultsFormated: [],
-      teamObject: Object
+      resultsFormated: []
     };
   },
   name: "ModalResults",
   props: {
     results: Array,
-    team: Function
+    teamName: String
   },
 
   methods: {
@@ -53,23 +51,21 @@ export default {
           home: x.homeTeam.name,
           away: x.awayTeam.name,
           score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam,
+          selectedTeam: this.$props.teamName,
           winner: x.score.winner
         };
       });
       return (this.resultsFormated = newArray);
     },
-    showDetails() {
-      let showDetails = this.$props.team;
-      return (this.teamObject = showDetails);
-    },
     getClass(teamModal) {
-      let teamClicked = this.$props.team.name;
+      let teamClicked = this.$props.teamName;
       return {
         "font-weight-bold": teamClicked === teamModal
       };
     },
     getClassResult(res) {
-      let teamClicked = this.$props.team.name;
+      let teamClicked = this.$props.teamName;
+      console.log(res.winner);
       if (res.winner === "DRAW") {
         return "alert-warning";
       } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
@@ -79,12 +75,23 @@ export default {
       } else {
         return "alert-danger";
       }
+    },
+    getClassBadge(res) {
+      let teamClicked = this.$props.teamName;
+      if (res.winner === "DRAW") {
+        return "badge-warning";
+      } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
+        return "badge-success";
+      } else if (res.winner === "AWAY_TEAM" && res.away === teamClicked) {
+        return "badge-success";
+      } else {
+        return "badge-danger";
+      }
     }
   },
 
   created() {
     this.newArray();
-    this.showDetails();
   }
 };
 </script>
