@@ -6,7 +6,7 @@
           <b-nav-item active to="/standings">Standings</b-nav-item>
           <b-nav-item :to="{ path: '/fixtures2', props: { fixtures: fixtures } }">Fixtures2</b-nav-item>
           <b-nav-item :to="{ path: '/fixtures', props: { fixtures: fixtures } }">Fixtures</b-nav-item>
-          <b-nav-item to="/scorers">Scorers</b-nav-item>
+          <b-nav-item :to="{ path: '/scorers', props: { scorers: scorers } }">Scorers</b-nav-item>
         </b-nav>
       </div>
     </div>-->
