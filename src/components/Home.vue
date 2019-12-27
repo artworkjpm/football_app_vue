@@ -1,5 +1,16 @@
 <template>
   <div class="container mt-3">
+    <!--  <div>
+      <div>
+        <b-nav tabs>
+          <b-nav-item active to="/standings">Standings</b-nav-item>
+          <b-nav-item :to="{ path: '/fixtures2', props: { fixtures: fixtures } }">Fixtures2</b-nav-item>
+          <b-nav-item :to="{ path: '/fixtures', props: { fixtures: fixtures } }">Fixtures</b-nav-item>
+          <b-nav-item to="/scorers">Scorers</b-nav-item>
+        </b-nav>
+      </div>
+    </div>-->
+    <!-- GAP -->
     <div>
       <b-tabs content-class="mt-3">
         <b-tab title="Standings" active>
@@ -9,7 +20,7 @@
           <Fixtures :fixtures="fixtures" />
         </b-tab>
         <b-tab title="Scorers">
-          <p>I'm a disabled tab!</p>
+          <Scorers :scorers="scorers" @seasonScorers="getScorersYear" />
         </b-tab>
       </b-tabs>
     </div>
@@ -18,18 +29,21 @@
 <script>
 import LeagueTable from "./LeagueTable";
 import Fixtures from "./Fixtures";
+import Scorers from "./Scorers";
 import getData from "../service/apiCalls";
 export default {
   name: "Home",
   components: {
     LeagueTable,
-    Fixtures
+    Fixtures,
+    Scorers
   },
 
   data() {
     return {
       standings: [],
       fixtures: [],
+      scorers: [],
       year: this.getYear(),
       standingType: "TOTAL"
     };
@@ -47,7 +61,7 @@ export default {
         )
         .then(response => {
           this.standings = response.data.standings[0].table;
-          console.log("standings: ", this.standings);
+          //console.log("standings: ", this.standings);
         })
         .catch(error => console.log(error));
     },
@@ -56,7 +70,16 @@ export default {
         .get("matches?status=SCHEDULED")
         .then(response => {
           this.fixtures = response.data.matches;
-          console.log("this.fixtures: ", this.fixtures);
+          //console.log("this.fixtures: ", this.fixtures);
+        })
+        .catch(error => console.log(error));
+    },
+    getScorers() {
+      getData.getPLData
+        .get("scorers?season=" + this.year)
+        .then(response => {
+          this.scorers = response.data;
+          //console.log("scorers: ", this.scorers);
         })
         .catch(error => console.log(error));
     },
@@ -65,11 +88,16 @@ export default {
       this.standingType = typeObj.standingType;
       this.year = typeObj.year;
       this.getStandings();
+    },
+    getScorersYear(typeObj) {
+      this.year = typeObj.year;
+      this.getScorers();
     }
   },
   created() {
     this.getStandings();
     this.getFixtures();
+    this.getScorers();
   }
 };
 </script>

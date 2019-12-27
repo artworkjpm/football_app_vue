@@ -21,6 +21,7 @@
 <script>
 import moment from "moment";
 export default {
+  name: "Fixtures",
   data() {
     return {
       cleanedFixtureDates: [],

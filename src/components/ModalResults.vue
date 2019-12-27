@@ -4,7 +4,7 @@
       <thead>
         <tr>
           <th class="alert-info text-center">{{resultsFormated[0].competition}}</th>
-          <th class="text-center">Played: {{teamDetails.played}}</th>
+          <th class="text-center">Pld: {{teamDetails.played}}</th>
           <th class="alert-success text-center">Won: {{teamDetails.won}}</th>
           <th class="alert-warning text-center">Drew: {{teamDetails.draw}}</th>
           <th class="alert-danger text-center">Lost: {{teamDetails.lost}}</th>
