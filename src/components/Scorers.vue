@@ -12,8 +12,8 @@
           <th>Team</th>
         </tr>
       </thead>
-      <tr v-for="(item, i) in scorersList.scorers" :key="i">
-        <td class="text-nowrap">{{i +1}})</td>
+      <tr v-for="(item, i) in scorers.scorers" :key="i">
+        <td class="text-nowrap">{{i +1}}.</td>
         <td class="text-nowrap">{{item.player.name}}</td>
         <td class="text-nowrap">{{item.numberOfGoals}}</td>
         <td class="text-nowrap">{{item.team.name}}</td>
@@ -24,9 +24,13 @@
 <script>
 export default {
   name: "Scorers",
+  props: {
+    scorers: {
+      type: [Object, Array]
+    }
+  },
   data() {
     return {
-      scorersList: [],
       year: this.getYear(),
       optionYears: [
         { value: "2019", text: "2019-20" },
@@ -35,16 +39,8 @@ export default {
       ]
     };
   },
-  props: {
-    scorers: {
-      type: [Array, Object]
-    }
-  },
+
   methods: {
-    newArray() {
-      this.scorersList = this.$props.scorers;
-      //console.log("scorers method: ", this.scorersList);
-    },
     getYear() {
       var d = new Date();
       var n = d.getFullYear();
@@ -57,11 +53,8 @@ export default {
       this.$emit("seasonScorers", typeObj);
     }
   },
-
-  watch: {
-    scorers() {
-      this.newArray();
-    }
+  beforeMount() {
+    //console.log("props: ", this.$props.scorers.scorers);
   }
 };
 </script>

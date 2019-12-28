@@ -1,12 +1,9 @@
 <template>
   <div class="container mt-3">
-    <!--  <div>
+    <!-- <div>
       <div>
         <b-nav tabs>
-          <b-nav-item active to="/standings">Standings</b-nav-item>
-          <b-nav-item :to="{ path: '/fixtures2', props: { fixtures: fixtures } }">Fixtures2</b-nav-item>
-          <b-nav-item :to="{ path: '/fixtures', props: { fixtures: fixtures } }">Fixtures</b-nav-item>
-          <b-nav-item :to="{ path: '/scorers', props: { scorers: scorers } }">Scorers</b-nav-item>
+          <b-nav-item :to="{ path: '/scorers', props: {scorers: scorers} }">Scorers</b-nav-item>
         </b-nav>
       </div>
     </div>-->
@@ -19,7 +16,7 @@
         <b-tab title="Fixtures">
           <Fixtures :fixtures="fixtures" />
         </b-tab>
-        <b-tab title="Scorers">
+        <b-tab title="Scorers" to="/scorers">
           <Scorers :scorers="scorers" @seasonScorers="getScorersYear" />
         </b-tab>
       </b-tabs>

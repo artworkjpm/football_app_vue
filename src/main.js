@@ -7,6 +7,6 @@ import "./main.scss";
 Vue.use(BootstrapVue)
 
 new Vue({
-  render: h => h(App),
-  router
-}).$mount("#app");
+  router,
+  render: h => h(App)
+}).$mount('#app')

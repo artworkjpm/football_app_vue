@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/components/Home.vue";
+import About from "@/components/About.vue"
 import Scorers from "@/components/Scorers.vue"
 import LeagueTable from "@/components/LeagueTable";
 import Fixtures from "@/components/Fixtures";
@@ -18,6 +19,11 @@ export default new VueRouter({
       component: Home
     },
     {
+      path: "/about",
+      name: "About",
+      component: About
+    },
+    {
       path: "/standings",
       name: "Standings",
       component: LeagueTable
@@ -25,19 +31,18 @@ export default new VueRouter({
     {
       path: "/fixtures",
       name: "Fixtures",
-      component: Fixtures,
-      props: true
+      component: Fixtures
     },
     {
       path: "/fixtures2",
       name: "Fixtures2",
-      component: Fixtures2,
-      props: true
+      component: Fixtures2
     },
     {
       path: "/scorers",
       name: "Scorers",
-      component: Scorers
+      component: Scorers,
+      props: true
     },
   ],
   mode: "history"
