@@ -47,10 +47,7 @@ export default {
       return n;
     },
     onChange() {
-      const typeObj = {
-        year: this.$data.year
-      };
-      this.$emit("seasonScorers", typeObj);
+      this.$emit("seasonScorers", this.$data.year);
     }
   },
   beforeMount() {

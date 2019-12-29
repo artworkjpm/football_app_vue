@@ -14,7 +14,7 @@
           <LeagueTable :standings="standings" @standingType="onDropDownType" />
         </b-tab>
         <b-tab title="Fixtures">
-          <Fixtures :fixtures="fixtures" />
+          <Fixtures :fixtures="fixtures" @statusType="onDropDownStatusType" />
         </b-tab>
         <b-tab title="Scorers" to="/scorers">
           <Scorers :scorers="scorers" @seasonScorers="getScorersYear" />
@@ -42,7 +42,8 @@ export default {
       fixtures: [],
       scorers: [],
       year: this.getYear(),
-      standingType: "TOTAL"
+      standingType: "TOTAL",
+      statusType: "SCHEDULED"
     };
   },
   methods: {
@@ -64,7 +65,7 @@ export default {
     },
     getFixtures() {
       getData.getPLData
-        .get("matches?status=SCHEDULED")
+        .get("matches?status=" + this.statusType)
         .then(response => {
           this.fixtures = response.data.matches;
           //console.log("this.fixtures: ", this.fixtures);
@@ -86,8 +87,13 @@ export default {
       this.year = typeObj.year;
       this.getStandings();
     },
-    getScorersYear(typeObj) {
-      this.year = typeObj.year;
+    onDropDownStatusType(receivedStatus) {
+      //console.log("statusType: ", receivedStatus);
+      this.statusType = receivedStatus;
+      this.getFixtures();
+    },
+    getScorersYear(season) {
+      this.year = season;
       this.getScorers();
     }
   },
