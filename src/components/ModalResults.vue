@@ -15,8 +15,8 @@
     <table class="table-responsive table adjust" v-for="(res, i) in resultsFormated" :key="i">
       <thead>
         <tr>
-          <th class="text-nowrap font-weight-normal font-italic">
-            {{res.competition}}
+          <th class="text-nowrap font-weight-normal">
+            <span class="font-italic">{{res.competition}}</span>
             <br />
             {{ res.date}}
           </th>
@@ -52,11 +52,10 @@ export default {
 
   methods: {
     newArray() {
-      //console.log("results: ", this.$props.results);
-
       let newArray = Array.from(this.$props.results, x => {
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY - HH:mm"),
+          dateNative: x.utcDate,
           home: x.homeTeam.name,
           away: x.awayTeam.name,
           score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam,
@@ -64,6 +63,10 @@ export default {
           winner: x.score.winner,
           competition: x.competition.name
         };
+      });
+
+      newArray.sort((a, b) => {
+        return new Date(b.dateNative) - new Date(a.dateNative);
       });
       return (this.resultsFormated = newArray);
     },
