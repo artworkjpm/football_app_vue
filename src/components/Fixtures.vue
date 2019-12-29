@@ -55,12 +55,16 @@ export default {
       console.log("fixtures looking for result: ", this.$props.fixtures);
 
       let newArray = Array.from(this.$props.fixtures, x => {
+        const checkNull = () => {
+          return x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam;
+        };
+
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY"),
           time: moment(x.utcDate).format("HH:mm"),
           home: x.homeTeam.name,
           away: x.awayTeam.name,
-          score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam,
+          score: checkNull(),
           winner: x.score.winner
         };
       });
