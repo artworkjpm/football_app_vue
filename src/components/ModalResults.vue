@@ -15,12 +15,10 @@
     <table class="table-responsive table adjust" v-for="(res, i) in resultsFormated" :key="i">
       <thead>
         <tr>
-          <th class="text-nowrap">
-            <span class="text-right font-weight-normal font-italic">
-              {{res.competition}}
-              <br />
-              {{ res.date}}
-            </span>
+          <th class="text-nowrap font-weight-normal font-italic">
+            {{res.competition}}
+            <br />
+            {{ res.date}}
           </th>
         </tr>
       </thead>
@@ -54,7 +52,7 @@ export default {
 
   methods: {
     newArray() {
-      console.log("results: ", this.$props.results);
+      //console.log("results: ", this.$props.results);
 
       let newArray = Array.from(this.$props.results, x => {
         return {

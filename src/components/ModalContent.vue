@@ -11,7 +11,9 @@
         <b-tab title="Results" active>
           <ModalResults :results="results" :teamName="teamName" :teamDetails="teamDetails" />
         </b-tab>
-        <b-tab title="Fixtures"></b-tab>
+        <b-tab title="Fixtures">
+          <ModalFixtures :teamFixtures="teamFixtures" :teamName="teamName" />
+        </b-tab>
         <b-tab title="Scorers"></b-tab>
       </b-tabs>
     </b-modal>
@@ -25,23 +27,25 @@
 <script>
 import getData from "../service/apiCalls";
 import ModalResults from "./ModalResults";
+import ModalFixtures from "./ModalFixtures";
 export default {
   name: "ModalContent",
   props: {
     standings: Array,
     teamId: [Function, Object]
   },
-  components: { ModalResults },
+  components: { ModalResults, ModalFixtures },
   data() {
     return {
       results: [],
       teamName: String,
-      teamDetails: Object
+      teamDetails: Object,
+      teamFixtures: []
     };
   },
   methods: {
     getResults(teamId) {
-      console.log("getResults teamid: ", teamId);
+      //console.log("getResults teamid: ", teamId);
 
       getData.getTeamResults
         .get(teamId.teamId + "/matches?status=FINISHED")
@@ -57,6 +61,17 @@ export default {
           this.$bvModal.show("modalId" + teamId.teamIndex);
         })
         .catch(error => console.log(error));
+    },
+    getTeamFixtures(teamId) {
+      //console.log("GET TEAM FIXTURES teamid: ", teamId);
+
+      getData.getTeamResults
+        .get(teamId.teamId + "/matches?status=SCHEDULED")
+        .then(response => {
+          this.teamFixtures = response.data.matches;
+          console.log("this.teamFixtures: ", this.teamFixtures);
+        })
+        .catch(error => console.log(error));
     }
   },
 
@@ -64,6 +79,7 @@ export default {
     teamId() {
       this.teamId = this.$props.teamId;
       this.getResults(this.teamId);
+      this.getTeamFixtures(this.teamId);
     }
   }
 };
