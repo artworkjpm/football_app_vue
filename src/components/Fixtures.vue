@@ -1,8 +1,9 @@
 <template>
   <div>
-    <b-form-group label="Status" style="width: 150px">
+    <b-form-group label="Status:" style="width: 150px">
       <b-form-select v-model="status" :options="statusType" @change="onChange()" />
     </b-form-group>
+    <!-- DESKTOP -->
     <table class="table-responsive table adjust" v-for="(item, i) in newArrayFixtures" :key="i">
       <thead>
         <tr class="alert-info">
@@ -12,8 +13,8 @@
       <tbody>
         <tr v-for="(fixture, i) in item" :key="i">
           <td class="text-nowrap">
-            <span class="text-right leftx">
-              <span v-if="status === 'FINISHED'" class="light-grey">({{fixture.time}})</span>
+            <span class="text-right lefty">
+              <span v-if="status === 'FINISHED'" class="light-grey smaller">({{fixture.time}})</span>
               {{ fixture.home }}
             </span>
             <b-badge>{{ timeResult(fixture) }}</b-badge>
@@ -52,7 +53,7 @@ export default {
       this.$emit("statusType", this.$data.status);
     },
     newArray() {
-      //console.log("fixtures looking for result: ", this.$props.fixtures);
+      console.log("fixtures looking for result: ", this.$props.fixtures);
       let newArray = Array.from(this.$props.fixtures, x => {
         const checkNull = () => {
           let tempVal = " - ";
@@ -73,6 +74,8 @@ export default {
           winner: x.score.winner
         };
       });
+
+      //console.log("newArray:, ", newArray);
 
       return newArray, this.arrayFilter(newArray);
     },

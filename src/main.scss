@@ -67,11 +67,15 @@ $grey: #c7c7c7;
     overflow: hidden;
     white-space: nowrap;
     display: inline-grid;
-    width: 150px;
+    width: 180px;
   }
 }
 @media only screen and (max-width: 450px) {
   .adjust {
+    .lefty {
+      width: 140px;
+    }
+
     .leftx,
     .rightx {
       width: 100px;
@@ -89,4 +93,8 @@ $grey: #c7c7c7;
 .light-grey {
   display: contents;
   color: #929292;
+}
+
+.smaller {
+  font-size: 11px;
 }
