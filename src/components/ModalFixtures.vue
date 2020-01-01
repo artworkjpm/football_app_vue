@@ -6,7 +6,7 @@
           <th class="text-nowrap font-weight-normal font-italic">
             {{item.competition.name}}
             <br />
-            {{getDateFormat(item.utcDate, "getFullDate")}}
+            {{getDateFormat(item.utcDate).fullDate}}
           </th>
         </tr>
       </thead>
@@ -17,7 +17,7 @@
               class="text-right leftx"
               :class="getBold(item.homeTeam.name)"
             >{{ item.homeTeam.name }}</span>
-            <b-badge>{{ getDateFormat(item.utcDate, "getTime") }}</b-badge>
+            <b-badge>{{ getDateFormat(item.utcDate).time }}</b-badge>
             <span class="rightx" :class="getBold(item.awayTeam.name)">{{ item.awayTeam.name }}</span>
           </td>
         </tr>
@@ -27,26 +27,46 @@
 </template>
 
 <script>
+import getData from "../service/apiCalls";
 import moment from "moment";
 export default {
+  data() {
+    return {
+      teamFixtures: Array,
+      teamName: String
+    };
+  },
   props: {
-    teamFixtures: Array,
-    teamName: String
+    teamId: [Function, Object]
   },
   methods: {
-    getDateFormat(date, call) {
-      if (call === "getFullDate") {
-        return moment(date).format("ddd, MMMM Do YYYY");
-      } else {
-        return moment(date).format("HH:mm");
-      }
+    getTeamFixtures(teamId) {
+      //console.log("GET TEAM FIXTURES teamid: ", teamId);
+
+      getData.getTeamResults
+        .get(teamId.teamId + "/matches?status=SCHEDULED")
+        .then(response => {
+          this.teamFixtures = response.data.matches;
+          this.teamName = teamId.teamName;
+          //console.log("this.teamFixtures: ", this.teamFixtures);
+        })
+        .catch(error => console.log(error));
+    },
+    getDateFormat(date) {
+      return {
+        fullDate: moment(date).format("ddd, MMMM Do YYYY"),
+        time: moment(date).format("HH:mm")
+      };
     },
     getBold(team) {
-      const teamSelected = this.$props.teamName;
+      const teamSelected = this.$data.teamName;
       if (team === teamSelected) {
         return "font-weight-bold";
       }
     }
+  },
+  beforeMount() {
+    this.getTeamFixtures(this.$props.teamId);
   }
 };
 </script>

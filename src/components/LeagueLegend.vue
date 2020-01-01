@@ -1,6 +1,6 @@
 <template>
   <div class="col">
-    <table class="table table-responsive">
+    <table class="table table-responsive small">
       <tbody>
         <tr class="alert-success">
           <td>Winners</td>

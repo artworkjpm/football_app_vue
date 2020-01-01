@@ -3,7 +3,9 @@
     <table class="typeLegend small">
       <thead>
         <tr>
-          <th class="alert-info text-center">{{resultsFormated[0].competition}}</th>
+          <th
+            class="alert-info text-center"
+          >{{resultsFormated[0] && resultsFormated[0].competition}}</th>
           <th class="text-center">Pld: {{teamDetails.played}}</th>
           <th class="alert-success text-center">Won: {{teamDetails.won}}</th>
           <th class="alert-warning text-center">Drew: {{teamDetails.draw}}</th>
@@ -36,48 +38,68 @@
 </template>
 
 <script>
+import getData from "../service/apiCalls";
 import moment from "moment";
 export default {
   data() {
     return {
+      results: [],
+      teamName: String,
+      teamDetails: Object,
       resultsFormated: []
     };
   },
   name: "ModalResults",
   props: {
-    results: Array,
-    teamName: String,
-    teamDetails: Object
+    teamId: [Function, Object]
   },
 
   methods: {
-    newArray() {
-      let newArray = Array.from(this.$props.results, x => {
+    getResults(teamId) {
+      //console.log("getResults teamid: ", teamId);
+      getData.getTeamResults
+        .get(teamId.teamId + "/matches?status=FINISHED")
+        .then(response => {
+          this.results = response.data.matches;
+          this.newArray(teamId);
+        })
+        .catch(error => console.log(error));
+    },
+    newArray(teamId) {
+      let newArray = Array.from(this.$data.results, x => {
         return {
+          competition: x.competition.name,
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY - HH:mm"),
           dateNative: x.utcDate,
           home: x.homeTeam.name,
           away: x.awayTeam.name,
           score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam,
-          selectedTeam: this.$props.teamName,
-          winner: x.score.winner,
-          competition: x.competition.name
+          selectedTeam: this.$data.teamName,
+          winner: x.score.winner
         };
       });
 
       newArray.sort((a, b) => {
         return new Date(b.dateNative) - new Date(a.dateNative);
       });
-      return (this.resultsFormated = newArray);
+      this.resultsFormated = newArray;
+      //console.log("resultsFormated:", this.resultsFormated);
+      this.teamName = teamId.teamName;
+      this.teamDetails = {
+        played: teamId.played,
+        won: teamId.won,
+        draw: teamId.draw,
+        lost: teamId.lost
+      };
     },
     getClass(teamModal) {
-      let teamClicked = this.$props.teamName;
+      let teamClicked = this.$data.teamName;
       return {
         "font-weight-bold": teamClicked === teamModal
       };
     },
     getClassResult(res) {
-      let teamClicked = this.$props.teamName;
+      let teamClicked = this.$data.teamName;
       if (res.winner === "DRAW") {
         return "alert-warning";
       } else if (res.winner === "HOME_TEAM" && res.home === teamClicked) {
@@ -91,7 +113,7 @@ export default {
   },
 
   beforeMount() {
-    this.newArray();
+    this.getResults(this.$props.teamId);
   }
 };
 </script>

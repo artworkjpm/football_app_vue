@@ -8,6 +8,7 @@ $grey: #c7c7c7;
   th,
   td {
     border: 1px solid $grey;
+    white-space: nowrap;
   }
 }
 
@@ -23,6 +24,7 @@ $grey: #c7c7c7;
 
 .table thead th {
   border-bottom: unset;
+  white-space: nowrap;
 }
 .team-badge {
   height: 35px;

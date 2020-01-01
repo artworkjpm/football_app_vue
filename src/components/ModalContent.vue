@@ -9,13 +9,13 @@
       </template>
       <b-tabs content-class="mt-3">
         <b-tab title="Results" active>
-          <ModalResults :results="results" :teamName="teamName" :teamDetails="teamDetails" />
+          <ModalResults :teamId="teamId" />
         </b-tab>
         <b-tab title="Fixtures">
-          <ModalFixtures :teamFixtures="teamFixtures" :teamName="teamName" />
+          <ModalFixtures :teamId="teamId" />
         </b-tab>
         <b-tab title="Squad">
-          <ModalSquad :clubInfo="clubInfo" />
+          <ModalSquad :teamId="teamId" />
         </b-tab>
       </b-tabs>
     </b-modal>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import getData from "../service/apiCalls";
 import ModalResults from "./ModalResults";
 import ModalFixtures from "./ModalFixtures";
 import ModalSquad from "./ModalSquad";
@@ -38,63 +37,10 @@ export default {
     teamId: [Function, Object]
   },
   components: { ModalResults, ModalFixtures, ModalSquad },
-  data() {
-    return {
-      results: [],
-      teamName: String,
-      teamDetails: Object,
-      teamFixtures: [],
-      clubInfo: Object
-    };
-  },
-  methods: {
-    getResults(teamId) {
-      //console.log("getResults teamid: ", teamId);
-
-      getData.getTeamResults
-        .get(teamId.teamId + "/matches?status=FINISHED")
-        .then(response => {
-          this.results = response.data.matches;
-          this.teamName = teamId.teamName;
-          this.teamDetails = {
-            played: teamId.played,
-            won: teamId.won,
-            draw: teamId.draw,
-            lost: teamId.lost
-          };
-          this.$bvModal.show("modalId" + teamId.teamIndex);
-        })
-        .catch(error => console.log(error));
-    },
-    getTeamFixtures(teamId) {
-      //console.log("GET TEAM FIXTURES teamid: ", teamId);
-
-      getData.getTeamResults
-        .get(teamId.teamId + "/matches?status=SCHEDULED")
-        .then(response => {
-          this.teamFixtures = response.data.matches;
-          //console.log("this.teamFixtures: ", this.teamFixtures);
-        })
-        .catch(error => console.log(error));
-    },
-    getTeamInfo(teamId) {
-      getData.getTeamResults
-        .get(teamId.teamId + "/")
-        .then(response => {
-          //this.teamFixtures = response.data.matches;
-          console.log("getTeamInfo ", response.data);
-          this.clubInfo = response.data;
-        })
-        .catch(error => console.log(error));
-    }
-  },
-
   watch: {
     teamId() {
       this.teamId = this.$props.teamId;
-      this.getResults(this.teamId);
-      this.getTeamFixtures(this.teamId);
-      this.getTeamInfo(this.teamId);
+      this.$bvModal.show("modalId" + this.teamId.teamIndex);
     }
   }
 };
