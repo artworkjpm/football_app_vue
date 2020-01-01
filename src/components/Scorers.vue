@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-form-group label="Season" style="width: 150px">
-      <b-form-select v-model="year" :options="optionYears" @change="onChange()" />
+      <b-form-select v-model="yearChosen" :options="optionYears" @change="onChange()" />
     </b-form-group>
     <table class="small table-responsive table">
       <thead>
@@ -25,13 +25,14 @@
 export default {
   name: "Scorers",
   props: {
+    year: [Function, Number, String],
     scorers: {
       type: [Object, Array]
     }
   },
   data() {
     return {
-      year: this.getYear(),
+      yearChosen: Number,
       optionYears: [
         { value: "2019", text: "2019-20" },
         { value: "2018", text: "2018-19" },
@@ -41,17 +42,14 @@ export default {
   },
 
   methods: {
-    getYear() {
-      var d = new Date();
-      var n = d.getFullYear();
-      return n;
-    },
     onChange() {
-      this.$emit("seasonScorers", this.$data.year);
+      this.$emit("seasonScorers", this.$data.yearChosen);
     }
   },
-  beforeMount() {
-    //console.log("props: ", this.$props.scorers.scorers);
+  watch: {
+    year() {
+      this.yearChosen = this.$props.year;
+    }
   }
 };
 </script>

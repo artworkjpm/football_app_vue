@@ -53,7 +53,7 @@ export default {
       this.$emit("statusType", this.$data.status);
     },
     newArray() {
-      console.log("fixtures looking for result: ", this.$props.fixtures);
+      //console.log("fixtures looking for result: ", this.$props.fixtures);
       let newArray = Array.from(this.$props.fixtures, x => {
         const checkNull = () => {
           let tempVal = " - ";

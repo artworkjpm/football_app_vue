@@ -19,7 +19,6 @@ export default {
         { value: "HOME", text: "Home" },
         { value: "AWAY", text: "Away" }
       ],
-      year: this.getYear(),
       optionYears: [
         { value: "2019", text: "2019-20" },
         { value: "2018", text: "2018-19" },
@@ -27,16 +26,14 @@ export default {
       ]
     };
   },
+  props: {
+    year: [Function, Number, String]
+  },
   methods: {
-    getYear() {
-      var d = new Date();
-      var n = d.getFullYear();
-      return n;
-    },
     onChange() {
       const typeObj = {
         standingType: this.$data.standingType,
-        year: this.$data.year
+        year: this.$props.year
       };
       this.$emit("standingType", typeObj);
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <DropDownType @standingType="onDropDownType" />
+    <DropDownType @standingType="onDropDownType" :year="year" />
     <div class="col">
       <table class="league-table table table-responsive small">
         <thead>
@@ -61,7 +61,8 @@ export default {
   props: {
     standings: {
       type: Array
-    }
+    },
+    year: [Function, Number, String]
   },
   methods: {
     goalDiff(item1, item2) {

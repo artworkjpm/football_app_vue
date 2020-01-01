@@ -15,7 +15,7 @@
           <ModalFixtures :teamFixtures="teamFixtures" :teamName="teamName" />
         </b-tab>
         <b-tab title="Squad">
-          <ModalSquad />
+          <ModalSquad :clubInfo="clubInfo" />
         </b-tab>
       </b-tabs>
     </b-modal>
@@ -43,7 +43,8 @@ export default {
       results: [],
       teamName: String,
       teamDetails: Object,
-      teamFixtures: []
+      teamFixtures: [],
+      clubInfo: Object
     };
   },
   methods: {
@@ -81,7 +82,8 @@ export default {
         .get(teamId.teamId + "/")
         .then(response => {
           //this.teamFixtures = response.data.matches;
-          console.log("response.data.matches ", response.data);
+          console.log("getTeamInfo ", response.data);
+          this.clubInfo = response.data;
         })
         .catch(error => console.log(error));
     }

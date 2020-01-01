@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="table-responsive table adjust" v-for="(item, i) in teamFixturesArray" :key="i">
+    <table class="table-responsive table adjust" v-for="(item, i) in teamFixtures" :key="i">
       <thead>
         <tr class="alert-info">
           <th class="text-nowrap font-weight-normal font-italic">
@@ -29,11 +29,6 @@
 <script>
 import moment from "moment";
 export default {
-  data() {
-    return {
-      teamFixturesArray: this.$props.teamFixtures
-    };
-  },
   props: {
     teamFixtures: Array,
     teamName: String

@@ -11,13 +11,13 @@
     <div>
       <b-tabs content-class="mt-3">
         <b-tab title="Standings" active>
-          <LeagueTable :standings="standings" @standingType="onDropDownType" />
+          <LeagueTable :standings="standings" @standingType="onDropDownType" :year="year" />
         </b-tab>
         <b-tab title="Fixtures">
           <Fixtures :fixtures="fixtures" @statusType="onDropDownStatusType" />
         </b-tab>
         <b-tab title="Scorers" to="/scorers">
-          <Scorers :scorers="scorers" @seasonScorers="getScorersYear" />
+          <Scorers :scorers="scorers" @seasonScorers="getScorersYear" :year="year" />
         </b-tab>
       </b-tabs>
     </div>
@@ -41,16 +41,27 @@ export default {
       standings: [],
       fixtures: [],
       scorers: [],
-      year: this.getYear(),
+      year: Number,
       standingType: "TOTAL",
       statusType: "SCHEDULED"
     };
   },
   methods: {
-    getYear() {
-      var d = new Date();
+    getYear(year) {
+      var d = new Date(year);
       var n = d.getFullYear();
       return n;
+    },
+    getFixtures() {
+      getData.getPLData
+        .get("matches?status=" + this.statusType)
+        .then(response => {
+          this.fixtures = response.data.matches;
+          this.year = this.getYear(response.data.matches[0].season.startDate);
+          //console.log("this.fixtures: ", this.year, this.fixtures);
+          this.getStandings();
+        })
+        .catch(error => console.log(error));
     },
     getStandings() {
       getData.getPLData
@@ -60,15 +71,7 @@ export default {
         .then(response => {
           this.standings = response.data.standings[0].table;
           //console.log("standings: ", this.standings);
-        })
-        .catch(error => console.log(error));
-    },
-    getFixtures() {
-      getData.getPLData
-        .get("matches?status=" + this.statusType)
-        .then(response => {
-          this.fixtures = response.data.matches;
-          //console.log("this.fixtures: ", this.fixtures);
+          this.getScorers();
         })
         .catch(error => console.log(error));
     },
@@ -98,9 +101,7 @@ export default {
     }
   },
   created() {
-    this.getStandings();
     this.getFixtures();
-    this.getScorers();
   }
 };
 </script>
