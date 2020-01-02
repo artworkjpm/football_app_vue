@@ -60,6 +60,7 @@ export default {
 
   methods: {
     getResults(teamId) {
+      this.showSpinner = true;
       //console.log("getResults teamid: ", teamId);
       getData.getTeamResults
         .get(teamId.teamId + "/matches?status=FINISHED")

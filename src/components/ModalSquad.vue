@@ -105,8 +105,7 @@ export default {
       getData.getTeamResults
         .get(teamId.teamId + "/")
         .then(response => {
-          //this.teamFixtures = response.data.matches;
-          console.log("getTeamInfo ", response.data);
+          //console.log("getTeamInfo ", response.data);
           this.clubInfo = response.data;
           this.getCoach();
           this.getPlayers();
@@ -132,7 +131,7 @@ export default {
           shirtNumber: item.shirtNumber
         };
       });
-      console.log("justPlayers: ", justPlayers);
+      //console.log("justPlayers: ", justPlayers);
 
       return (this.players = justPlayers);
     },
