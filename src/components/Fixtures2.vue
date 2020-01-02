@@ -7,7 +7,7 @@
 <script>
 export default {
   created() {
-    console.log(this.fixtures); //undefined;
+    console.log(this.fixtures);
   },
   props: ["fixtures"],
   computed: {

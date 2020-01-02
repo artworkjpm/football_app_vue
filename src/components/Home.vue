@@ -52,6 +52,7 @@ export default {
       fixtures: [],
       year: Number,
       currentYear: Number,
+      league: "PL",
       standingType: "TOTAL",
       statusType: "SCHEDULED"
     };
@@ -63,8 +64,8 @@ export default {
       return n;
     },
     getFixtures() {
-      getData.getPLData
-        .get("matches?status=" + this.statusType)
+      getData.getLeagueData
+        .get(this.league + "/matches?status=" + this.statusType)
         .then(response => {
           this.fixtures = response.data.matches;
           this.year = this.getYear(response.data.matches[0].season.startDate);
@@ -77,9 +78,13 @@ export default {
         .catch(error => console.log(error));
     },
     getStandings() {
-      getData.getPLData
+      getData.getLeagueData
         .get(
-          "standings?season=" + this.year + "&standingType=" + this.standingType
+          this.league +
+            "/standings?season=" +
+            this.year +
+            "&standingType=" +
+            this.standingType
         )
         .then(response => {
           this.standings = response.data.standings[0].table;
@@ -90,9 +95,11 @@ export default {
     },
 
     onDropDownType(typeObj) {
+      this.league = typeObj.league;
       this.standingType = typeObj.standingType;
       this.year = typeObj.year;
-      this.getStandings();
+      this.getFixtures();
+      //console.log("typeObj: ", typeObj);
     },
     onDropDownStatusType(receivedStatus) {
       //console.log("statusType: ", receivedStatus);

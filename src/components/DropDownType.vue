@@ -1,5 +1,8 @@
 <template>
   <div class="col">
+    <b-form-group label="League">
+      <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
+    </b-form-group>
     <b-form-group label="Season">
       <b-form-select v-model="currentYear" :options="optionYears" @change="onChange()" />
     </b-form-group>
@@ -13,8 +16,13 @@ export default {
   name: "DropDownType",
   data() {
     return {
+      league: "PL",
       currentYear: Number,
       standingType: "TOTAL",
+      optionLeagues: [
+        { value: "PL", text: "Premier League" },
+        { value: "PD", text: "Primera Division" }
+      ],
       options: [
         { value: "TOTAL", text: "Total" },
         { value: "HOME", text: "Home" },
@@ -33,6 +41,7 @@ export default {
   methods: {
     onChange() {
       const typeObj = {
+        league: this.$data.league,
         standingType: this.$data.standingType,
         year: this.$data.currentYear
       };

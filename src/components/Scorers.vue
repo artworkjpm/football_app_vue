@@ -46,8 +46,8 @@ export default {
   methods: {
     getScorers() {
       this.showSpinner = true;
-      getData.getPLData
-        .get("scorers?season=" + this.scorersYear)
+      getData.getLeagueData
+        .get("PL/scorers?season=" + this.scorersYear)
         .then(response => {
           this.scorers = response.data;
           //console.log("scorers: ", this.scorers);

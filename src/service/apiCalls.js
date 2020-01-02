@@ -3,8 +3,8 @@ const headers = {
   "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b"
 }
 export default {
-  getPLData: axios.create({
-    baseURL: "https://api.football-data.org/v2/competitions/PL/",
+  getLeagueData: axios.create({
+    baseURL: "https://api.football-data.org/v2/competitions/",
     timeout: 5000,
     headers
   }),
