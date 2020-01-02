@@ -59,29 +59,18 @@ export default {
     newArray() {
       //console.log("fixtures looking for result: ", this.$props.fixtures);
       let newArray = Array.from(this.$props.fixtures, x => {
-        const checkNull = () => {
-          let tempVal = " - ";
-          if (this.status === "FINISHED") {
-            tempVal =
-              x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam;
-          }
-          return tempVal;
-        };
-
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY"),
           dateNative: x.utcDate,
           time: moment(x.utcDate).format("HH:mm"),
           home: x.homeTeam.name,
           away: x.awayTeam.name,
-          score: checkNull(),
+          score: x.score.fullTime.homeTeam + " - " + x.score.fullTime.awayTeam,
           winner: x.score.winner
         };
       });
-
       //console.log("newArray:, ", newArray);
-
-      return newArray, this.arrayFilter(newArray);
+      return this.arrayFilter(newArray);
     },
     arrayFilter(newArray) {
       if (this.$data.status === "FINISHED") {
