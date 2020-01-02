@@ -1,39 +1,42 @@
 <template>
   <div>
-    <table class="typeLegend small">
-      <thead>
-        <tr>
-          <th
-            class="alert-info text-center"
-          >{{resultsFormated[0] && resultsFormated[0].competition}}</th>
-          <th class="text-center">Pld: {{teamDetails.played}}</th>
-          <th class="alert-success text-center">Won: {{teamDetails.won}}</th>
-          <th class="alert-warning text-center">Drew: {{teamDetails.draw}}</th>
-          <th class="alert-danger text-center">Lost: {{teamDetails.lost}}</th>
-        </tr>
-      </thead>
-    </table>
+    <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
+    <div v-if="!showSpinner">
+      <table class="typeLegend small">
+        <thead>
+          <tr>
+            <th
+              class="alert-info text-center"
+            >{{resultsFormated[0] && resultsFormated[0].competition}}</th>
+            <th class="text-center">Pld: {{teamDetails.played}}</th>
+            <th class="alert-success text-center">Won: {{teamDetails.won}}</th>
+            <th class="alert-warning text-center">Drew: {{teamDetails.draw}}</th>
+            <th class="alert-danger text-center">Lost: {{teamDetails.lost}}</th>
+          </tr>
+        </thead>
+      </table>
 
-    <table class="table-responsive table adjust" v-for="(res, i) in resultsFormated" :key="i">
-      <thead>
-        <tr>
-          <th class="text-nowrap font-weight-normal">
-            <span class="font-italic">{{res.competition}}</span>
-            <br />
-            {{ res.date}}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr :class="getClassResult(res)">
-          <td class="text-nowrap">
-            <span class="text-right leftx" :class="getClass(res.home)">{{ res.home }}</span>
-            <b-badge :class="getClassResult(res)">{{ res.score }}</b-badge>
-            <span class="rightx" :class="getClass(res.away)">{{ res.away }}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <table class="table-responsive table adjust" v-for="(res, i) in resultsFormated" :key="i">
+        <thead>
+          <tr>
+            <th class="text-nowrap font-weight-normal">
+              <span class="font-italic">{{res.competition}}</span>
+              <br />
+              {{ res.date}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :class="getClassResult(res)">
+            <td class="text-nowrap">
+              <span class="text-right leftx" :class="getClass(res.home)">{{ res.home }}</span>
+              <b-badge :class="getClassResult(res)">{{ res.score }}</b-badge>
+              <span class="rightx" :class="getClass(res.away)">{{ res.away }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -43,6 +46,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      showSpinner: true,
       results: [],
       teamName: String,
       teamDetails: Object,
@@ -91,6 +95,7 @@ export default {
         draw: teamId.draw,
         lost: teamId.lost
       };
+      this.showSpinner = false;
     },
     getClass(teamModal) {
       let teamClicked = this.$data.teamName;

@@ -1,7 +1,7 @@
 <template>
   <div class="col">
     <b-form-group label="Season">
-      <b-form-select v-model="year" :options="optionYears" @change="onChange()" />
+      <b-form-select v-model="currentYear" :options="optionYears" @change="onChange()" />
     </b-form-group>
     <b-form-group label="Type of games">
       <b-form-select v-model="standingType" :options="options" @change="onChange()" />
@@ -13,6 +13,7 @@ export default {
   name: "DropDownType",
   data() {
     return {
+      currentYear: Number,
       standingType: "TOTAL",
       options: [
         { value: "TOTAL", text: "Total" },
@@ -33,10 +34,13 @@ export default {
     onChange() {
       const typeObj = {
         standingType: this.$data.standingType,
-        year: this.$props.year
+        year: this.$data.currentYear
       };
       this.$emit("standingType", typeObj);
     }
+  },
+  created() {
+    this.currentYear = this.$props.year;
   }
 };
 </script>

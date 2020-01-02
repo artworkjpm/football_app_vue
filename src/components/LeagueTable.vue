@@ -2,13 +2,13 @@
   <div class="row">
     <DropDownType @standingType="onDropDownType" :year="year" />
     <div class="col">
-      <table class="league-table table table-responsive small">
+      <table class="league-table table table-responsive small table-hover">
         <thead>
           <tr>
             <th></th>
             <th></th>
-            <th>Pts</th>
             <th>MP</th>
+            <th>Pts</th>
             <th>W</th>
             <th>L</th>
             <th>D</th>
@@ -28,8 +28,8 @@
             <td>
               <img :src="item.team.crestUrl" class="team-badge" />
             </td>
-            <td>{{item.points}}</td>
             <td>{{item.playedGames}}</td>
+            <td class="font-weight-bold">{{item.points}}</td>
             <td>{{item.won}}</td>
             <td>{{item.lost}}</td>
             <td>{{item.draw}}</td>

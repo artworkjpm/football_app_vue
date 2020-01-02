@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-form-group label="Season" style="width: 150px">
-      <b-form-select v-model="yearChosen" :options="optionYears" @change="onChange()" />
+      <b-form-select v-model="scorersYear" :options="optionYears" @change="onChange()" />
     </b-form-group>
     <table class="small table-responsive table">
       <thead>
@@ -22,33 +22,41 @@
   </div>
 </template>
 <script>
+import getData from "../service/apiCalls";
 export default {
   name: "Scorers",
-  props: {
-    year: [Function, Number, String],
-    scorers: {
-      type: [Object, Array]
-    }
-  },
   data() {
     return {
-      yearChosen: Number,
+      scorersYear: Number,
       optionYears: [
         { value: "2019", text: "2019-20" },
         { value: "2018", text: "2018-19" },
         { value: "2017", text: "2017-18" }
-      ]
+      ],
+      scorers: []
     };
   },
-
+  props: {
+    currentYear: [Function, Number, String]
+  },
   methods: {
+    getScorers() {
+      getData.getPLData
+        .get("scorers?season=" + this.scorersYear)
+        .then(response => {
+          this.scorers = response.data;
+          //console.log("scorers: ", this.scorers);
+        })
+        .catch(error => console.log(error));
+    },
     onChange() {
-      this.$emit("seasonScorers", this.$data.yearChosen);
+      this.getScorers();
     }
   },
   watch: {
-    year() {
-      this.yearChosen = this.$props.year;
+    currentYear() {
+      this.scorersYear = this.$props.currentYear;
+      this.getScorers();
     }
   }
 };

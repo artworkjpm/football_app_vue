@@ -1,5 +1,8 @@
 <template>
   <div class="container mt-3">
+    <!-- <div class="text-center" v-if="showSpinner">
+      <b-spinner label="Spinning"></b-spinner>
+    </div>-->
     <!-- <div>
       <div>
         <b-nav tabs>
@@ -11,13 +14,19 @@
     <div>
       <b-tabs content-class="mt-3">
         <b-tab title="Standings" active>
-          <LeagueTable :standings="standings" @standingType="onDropDownType" :year="year" />
+          <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
+          <LeagueTable
+            :standings="standings"
+            @standingType="onDropDownType"
+            :year="year"
+            v-if="!showSpinner"
+          />
         </b-tab>
         <b-tab title="Fixtures">
           <Fixtures :fixtures="fixtures" @statusType="onDropDownStatusType" />
         </b-tab>
         <b-tab title="Scorers" to="/scorers">
-          <Scorers :scorers="scorers" @seasonScorers="getScorersYear" :year="year" />
+          <Scorers :currentYear="currentYear" />
         </b-tab>
       </b-tabs>
     </div>
@@ -38,10 +47,11 @@ export default {
 
   data() {
     return {
+      showSpinner: true,
       standings: [],
       fixtures: [],
-      scorers: [],
       year: Number,
+      currentYear: Number,
       standingType: "TOTAL",
       statusType: "SCHEDULED"
     };
@@ -58,6 +68,9 @@ export default {
         .then(response => {
           this.fixtures = response.data.matches;
           this.year = this.getYear(response.data.matches[0].season.startDate);
+          this.currentYear = this.getYear(
+            response.data.matches[0].season.startDate
+          );
           //console.log("this.fixtures: ", this.year, this.fixtures);
           this.getStandings();
         })
@@ -70,17 +83,8 @@ export default {
         )
         .then(response => {
           this.standings = response.data.standings[0].table;
+          this.showSpinner = false;
           //console.log("standings: ", this.standings);
-          this.getScorers();
-        })
-        .catch(error => console.log(error));
-    },
-    getScorers() {
-      getData.getPLData
-        .get("scorers?season=" + this.year)
-        .then(response => {
-          this.scorers = response.data;
-          //console.log("scorers: ", this.scorers);
         })
         .catch(error => console.log(error));
     },
@@ -94,10 +98,6 @@ export default {
       //console.log("statusType: ", receivedStatus);
       this.statusType = receivedStatus;
       this.getFixtures();
-    },
-    getScorersYear(season) {
-      this.year = season;
-      this.getScorers();
     }
   },
   created() {
