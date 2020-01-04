@@ -1,32 +1,42 @@
 <template>
-  <div>
-    <b-form-group label="League:" style="width: 250px">
-      <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
-    </b-form-group>
-    <b-form-group label="Status:" style="width: 150px">
-      <b-form-select v-model="status" :options="statusType" @change="onChange()" />
-    </b-form-group>
-    <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
-    <div v-if="!showSpinner">
-      <table class="table-responsive table adjust" v-for="(item, i) in newArrayFixtures" :key="i">
-        <thead>
-          <tr class="alert-info">
-            <th class="text-nowrap">{{ item[0].date }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(fixture, i) in item" :key="i">
-            <td class="text-nowrap">
-              <span class="text-right lefty">
-                <span v-if="status === 'FINISHED'" class="light-grey smaller">({{fixture.time}})</span>
-                {{ fixture.home }}
-              </span>
-              <b-badge>{{ timeResult(fixture) }}</b-badge>
-              <span class="rightx">{{ fixture.away }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="row">
+    <div>
+      <div class="row" style="padding: 0 15px;">
+        <div class="col-12">
+          <b-form-group>
+            <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
+          </b-form-group>
+        </div>
+        <div class="col-6">
+          <b-form-group>
+            <b-form-select v-model="status" :options="statusType" @change="onChange()" />
+          </b-form-group>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
+      <div v-if="!showSpinner">
+        <table class="table-responsive table adjust" v-for="(item, i) in newArrayFixtures" :key="i">
+          <thead>
+            <tr class="alert-info">
+              <th class="text-nowrap">{{ item[0].date }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(fixture, i) in item" :key="i">
+              <td class="text-nowrap">
+                <span class="text-right lefty">
+                  <span v-if="status === 'FINISHED'" class="light-grey smaller">({{fixture.time}})</span>
+                  {{ fixture.home }}
+                </span>
+                <b-badge>{{ timeResult(fixture) }}</b-badge>
+                <span class="rightx">{{ fixture.away }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

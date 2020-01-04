@@ -1,14 +1,22 @@
 <template>
-  <div class="col">
-    <b-form-group label="League:">
-      <b-form-select v-model="currentLeague" :options="optionLeagues" @change="onChange()" />
-    </b-form-group>
-    <b-form-group label="Season:">
-      <b-form-select v-model="currentYear" :options="optionYears" @change="onChange()" />
-    </b-form-group>
-    <b-form-group label="Type of game:">
-      <b-form-select v-model="currentTypeOfGame" :options="options" @change="onChange()" />
-    </b-form-group>
+  <div style="width: 398px">
+    <div class="row" style="padding: 0 15px;">
+      <div class="col-12">
+        <b-form-group>
+          <b-form-select v-model="currentLeague" :options="optionLeagues" @change="onChange()" />
+        </b-form-group>
+      </div>
+      <div class="col-6">
+        <b-form-group>
+          <b-form-select v-model="currentYear" :options="optionYears" @change="onChange()" />
+        </b-form-group>
+      </div>
+      <div class="col-6">
+        <b-form-group>
+          <b-form-select v-model="currentTypeOfGame" :options="options" @change="onChange()" />
+        </b-form-group>
+      </div>
+    </div>
   </div>
 </template>
 <script>

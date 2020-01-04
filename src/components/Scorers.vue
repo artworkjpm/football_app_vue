@@ -1,29 +1,39 @@
 <template>
-  <div>
-    <b-form-group label="League" style="width: 250px">
-      <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
-    </b-form-group>
-    <b-form-group label="Season" style="width: 150px">
-      <b-form-select v-model="year" :options="optionYears" @change="onChange()" />
-    </b-form-group>
-    <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
-    <div v-if="!showSpinner">
-      <table class="small table-responsive table">
-        <thead>
-          <tr class="alert-info">
-            <th></th>
-            <th>Player</th>
-            <th>Goals</th>
-            <th>Team</th>
+  <div class="row">
+    <div>
+      <div class="row" style="padding: 0 15px;">
+        <div class="col-12">
+          <b-form-group title="League">
+            <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
+          </b-form-group>
+        </div>
+        <div class="col-6">
+          <b-form-group title="Season">
+            <b-form-select v-model="year" :options="optionYears" @change="onChange()" />
+          </b-form-group>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
+      <div v-if="!showSpinner">
+        <table class="small table-responsive table">
+          <thead>
+            <tr class="alert-info">
+              <th></th>
+              <th>Player</th>
+              <th>Goals</th>
+              <th>Team</th>
+            </tr>
+          </thead>
+          <tr v-for="(item, i) in scorers.scorers" :key="i">
+            <td class="text-nowrap">{{i +1}}.</td>
+            <td class="text-nowrap">{{item.player.name}}</td>
+            <td class="text-nowrap">{{item.numberOfGoals}}</td>
+            <td class="text-nowrap">{{item.team.name}}</td>
           </tr>
-        </thead>
-        <tr v-for="(item, i) in scorers.scorers" :key="i">
-          <td class="text-nowrap">{{i +1}}.</td>
-          <td class="text-nowrap">{{item.player.name}}</td>
-          <td class="text-nowrap">{{item.numberOfGoals}}</td>
-          <td class="text-nowrap">{{item.team.name}}</td>
-        </tr>
-      </table>
+        </table>
+      </div>
     </div>
   </div>
 </template>
