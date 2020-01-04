@@ -1,7 +1,10 @@
 <template>
   <div>
+    <b-form-group label="League" style="width: 250px">
+      <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
+    </b-form-group>
     <b-form-group label="Season" style="width: 150px">
-      <b-form-select v-model="scorersYear" :options="optionYears" @change="onChange()" />
+      <b-form-select v-model="year" :options="optionYears" @change="onChange()" />
     </b-form-group>
     <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
     <div v-if="!showSpinner">
@@ -31,7 +34,12 @@ export default {
   data() {
     return {
       showSpinner: true,
-      scorersYear: Number,
+      year: 2019,
+      league: "PL",
+      optionLeagues: [
+        { value: "PL", text: "Premier League" },
+        { value: "PD", text: "Primera Division" }
+      ],
       optionYears: [
         { value: "2019", text: "2019-20" },
         { value: "2018", text: "2018-19" },
@@ -40,14 +48,11 @@ export default {
       scorers: []
     };
   },
-  props: {
-    currentYear: [Function, Number, String]
-  },
   methods: {
     getScorers() {
       this.showSpinner = true;
       getData.getLeagueData
-        .get("PL/scorers?season=" + this.scorersYear)
+        .get(this.league + "/scorers?season=" + this.year + "&limit=50")
         .then(response => {
           this.scorers = response.data;
           //console.log("scorers: ", this.scorers);
@@ -59,11 +64,8 @@ export default {
       this.getScorers();
     }
   },
-  watch: {
-    currentYear() {
-      this.scorersYear = this.$props.currentYear;
-      this.getScorers();
-    }
+  created() {
+    this.getScorers();
   }
 };
 </script>

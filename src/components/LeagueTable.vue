@@ -1,6 +1,11 @@
 <template>
   <div class="row">
-    <DropDownType @standingType="onDropDownType" :year="year" />
+    <DropDownType
+      @standingType="onDropDownType"
+      :year="year"
+      :league="league"
+      :typeOfGame="typeOfGame"
+    />
     <div class="col">
       <table class="league-table table table-responsive small table-hover">
         <thead>
@@ -62,7 +67,9 @@ export default {
     standings: {
       type: Array
     },
-    year: [Function, Number, String]
+    year: [String, Number],
+    league: String,
+    typeOfGame: String
   },
   methods: {
     goalDiff(item1, item2) {

@@ -18,15 +18,17 @@
           <LeagueTable
             :standings="standings"
             @standingType="onDropDownType"
-            :year="year"
             v-if="!showSpinner"
+            :year="year"
+            :league="league"
+            :typeOfGame="typeOfGame"
           />
         </b-tab>
         <b-tab title="Fixtures">
-          <Fixtures :fixtures="fixtures" @statusType="onDropDownStatusType" />
+          <Fixtures />
         </b-tab>
-        <b-tab title="Scorers" to="/scorers">
-          <Scorers :currentYear="currentYear" />
+        <b-tab title="Scorers">
+          <Scorers />
         </b-tab>
       </b-tabs>
     </div>
@@ -37,6 +39,7 @@ import LeagueTable from "./LeagueTable";
 import Fixtures from "./Fixtures";
 import Scorers from "./Scorers";
 import getData from "../service/apiCalls";
+import moment from "moment";
 export default {
   name: "Home",
   components: {
@@ -51,40 +54,35 @@ export default {
       standings: [],
       fixtures: [],
       year: Number,
-      currentYear: Number,
       league: "PL",
-      standingType: "TOTAL",
+      typeOfGame: "TOTAL",
       statusType: "SCHEDULED"
     };
   },
   methods: {
-    getYear(year) {
-      var d = new Date(year);
-      var n = d.getFullYear();
-      return n;
-    },
-    getFixtures() {
-      getData.getLeagueData
-        .get(this.league + "/matches?status=" + this.statusType)
-        .then(response => {
-          this.fixtures = response.data.matches;
-          this.year = this.getYear(response.data.matches[0].season.startDate);
-          this.currentYear = this.getYear(
-            response.data.matches[0].season.startDate
-          );
-          //console.log("this.fixtures: ", this.year, this.fixtures);
-          this.getStandings();
-        })
-        .catch(error => console.log(error));
+    //Season 2019-2020 can only accept 2019, if todays date is less than august, change to 2019.
+    getYear() {
+      let d2 = new Date();
+      const getMonth = d2.getMonth();
+      if (getMonth < 7) {
+        d2 = parseInt(moment(d2).format("YYYY"));
+        this.year = d2 - 1;
+      } else {
+        d2 = parseInt(moment(d2).format("YYYY"));
+        this.year = d2;
+      }
+      //console.log("this.getYear=", this.year);
+      this.getStandings();
     },
     getStandings() {
+      this.showSpinner = true;
       getData.getLeagueData
         .get(
           this.league +
             "/standings?season=" +
             this.year +
             "&standingType=" +
-            this.standingType
+            this.typeOfGame
         )
         .then(response => {
           this.standings = response.data.standings[0].table;
@@ -96,19 +94,14 @@ export default {
 
     onDropDownType(typeObj) {
       this.league = typeObj.league;
-      this.standingType = typeObj.standingType;
+      this.typeOfGame = typeObj.standingType;
       this.year = typeObj.year;
-      this.getFixtures();
+      this.getStandings();
       //console.log("typeObj: ", typeObj);
-    },
-    onDropDownStatusType(receivedStatus) {
-      //console.log("statusType: ", receivedStatus);
-      this.statusType = receivedStatus;
-      this.getFixtures();
     }
   },
   created() {
-    this.getFixtures();
+    this.getYear();
   }
 };
 </script>

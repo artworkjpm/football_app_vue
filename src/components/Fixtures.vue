@@ -1,5 +1,8 @@
 <template>
   <div>
+    <b-form-group label="League:" style="width: 250px">
+      <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
+    </b-form-group>
     <b-form-group label="Status:" style="width: 150px">
       <b-form-select v-model="status" :options="statusType" @change="onChange()" />
     </b-form-group>
@@ -29,11 +32,17 @@
 </template>
 <script>
 import moment from "moment";
+import getData from "../service/apiCalls";
 export default {
   name: "Fixtures",
   data() {
     return {
       showSpinner: true,
+      league: "PL",
+      optionLeagues: [
+        { value: "PL", text: "Premier League" },
+        { value: "PD", text: "Primera Division" }
+      ],
       newArrayFixtures: [],
       status: "SCHEDULED",
       statusType: [
@@ -46,19 +55,19 @@ export default {
       ]
     };
   },
-  props: {
-    fixtures: {
-      type: Array
-    }
-  },
   methods: {
-    onChange() {
-      this.showSpinner = true;
-      this.$emit("statusType", this.$data.status);
+    getFixtures() {
+      getData.getLeagueData
+        .get(this.league + "/matches?status=" + this.status)
+        .then(response => {
+          let fixtures = response.data.matches;
+          this.newArray(fixtures);
+        })
+        .catch(error => console.log(error));
     },
-    newArray() {
+    newArray(fixtures) {
       //console.log("fixtures looking for result: ", this.$props.fixtures);
-      let newArray = Array.from(this.$props.fixtures, x => {
+      let newArray = Array.from(fixtures, x => {
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY"),
           dateNative: x.utcDate,
@@ -73,7 +82,7 @@ export default {
       return this.arrayFilter(newArray);
     },
     arrayFilter(newArray) {
-      if (this.$data.status === "FINISHED") {
+      if (this.status === "FINISHED") {
         newArray.sort((a, b) => {
           return new Date(b.dateNative) - new Date(a.dateNative);
         });
@@ -88,7 +97,7 @@ export default {
     },
 
     timeResult(fixture) {
-      const statusTypeChosen = this.$data.status;
+      const statusTypeChosen = this.status;
       if (statusTypeChosen === "SCHEDULED") {
         return fixture.time;
       } else if (statusTypeChosen === "FINISHED") {
@@ -98,12 +107,14 @@ export default {
       } else {
         return "";
       }
+    },
+    onChange() {
+      this.showSpinner = true;
+      this.getFixtures();
     }
   },
-  watch: {
-    fixtures() {
-      this.newArray();
-    }
+  created() {
+    this.getFixtures();
   }
 };
 </script>

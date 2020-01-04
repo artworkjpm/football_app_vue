@@ -1,13 +1,13 @@
 <template>
   <div class="col">
-    <b-form-group label="League">
-      <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
+    <b-form-group label="League:">
+      <b-form-select v-model="currentLeague" :options="optionLeagues" @change="onChange()" />
     </b-form-group>
-    <b-form-group label="Season">
+    <b-form-group label="Season:">
       <b-form-select v-model="currentYear" :options="optionYears" @change="onChange()" />
     </b-form-group>
-    <b-form-group label="Type of games">
-      <b-form-select v-model="standingType" :options="options" @change="onChange()" />
+    <b-form-group label="Type of game:">
+      <b-form-select v-model="currentTypeOfGame" :options="options" @change="onChange()" />
     </b-form-group>
   </div>
 </template>
@@ -16,9 +16,9 @@ export default {
   name: "DropDownType",
   data() {
     return {
-      league: "PL",
+      currentLeague: String,
       currentYear: Number,
-      standingType: "TOTAL",
+      currentTypeOfGame: String,
       optionLeagues: [
         { value: "PL", text: "Premier League" },
         { value: "PD", text: "Primera Division" }
@@ -36,13 +36,15 @@ export default {
     };
   },
   props: {
-    year: [Function, Number, String]
+    year: [String, Number],
+    league: String,
+    typeOfGame: String
   },
   methods: {
     onChange() {
       const typeObj = {
-        league: this.$data.league,
-        standingType: this.$data.standingType,
+        league: this.$data.currentLeague,
+        standingType: this.$data.currentTypeOfGame,
         year: this.$data.currentYear
       };
       this.$emit("standingType", typeObj);
@@ -50,6 +52,8 @@ export default {
   },
   created() {
     this.currentYear = this.$props.year;
+    this.currentLeague = this.$props.league;
+    this.currentTypeOfGame = this.$props.typeOfGame;
   }
 };
 </script>
