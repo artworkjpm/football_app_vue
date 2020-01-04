@@ -43,16 +43,14 @@
 <script>
 import moment from "moment";
 import getData from "../service/apiCalls";
+import leagues from "./LeagueListings";
 export default {
   name: "Fixtures",
   data() {
     return {
       showSpinner: true,
       league: "PL",
-      optionLeagues: [
-        { value: "PL", text: "Premier League" },
-        { value: "PD", text: "Primera Division" }
-      ],
+      optionLeagues: leagues,
       newArrayFixtures: [],
       status: "SCHEDULED",
       statusType: [

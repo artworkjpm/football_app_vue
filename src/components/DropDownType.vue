@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import leagues from "./LeagueListings";
 export default {
   name: "DropDownType",
   data() {
@@ -27,10 +28,7 @@ export default {
       currentLeague: String,
       currentYear: Number,
       currentTypeOfGame: String,
-      optionLeagues: [
-        { value: "PL", text: "Premier League" },
-        { value: "PD", text: "Primera Division" }
-      ],
+      optionLeagues: leagues,
       options: [
         { value: "TOTAL", text: "Total" },
         { value: "HOME", text: "Home" },

@@ -39,6 +39,7 @@
 </template>
 <script>
 import getData from "../service/apiCalls";
+import leagues from "./LeagueListings";
 export default {
   name: "Scorers",
   data() {
@@ -46,10 +47,7 @@ export default {
       showSpinner: true,
       year: 2019,
       league: "PL",
-      optionLeagues: [
-        { value: "PL", text: "Premier League" },
-        { value: "PD", text: "Primera Division" }
-      ],
+      optionLeagues: leagues,
       optionYears: [
         { value: "2019", text: "2019-20" },
         { value: "2018", text: "2018-19" },
