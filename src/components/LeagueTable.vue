@@ -1,12 +1,16 @@
 <template>
   <div class="row">
-    <DropDownType
-      @standingType="onDropDownType"
-      :year="year"
-      :league="league"
-      :typeOfGame="typeOfGame"
-    />
-    <div class="col">
+    <div class="col-md-auto">
+      <LeagueDropDown
+        :league="league"
+        :optionLeagues="optionLeagues"
+        @onLeagueChange="onLeagueChange"
+      />
+
+      <DropDownType @standingType="onDropDownType" :year="year" :typeOfGame="typeOfGame" />
+    </div>
+
+    <div class="col-auto">
       <table class="league-table table table-responsive small table-hover">
         <thead>
           <tr>
@@ -46,12 +50,14 @@
         </tbody>
       </table>
     </div>
+
     <LeagueLegend />
     <ModalContent :standings="standings" :teamId="teamId" />
   </div>
 </template>
 
 <script>
+import LeagueDropDown from "./LeagueDropDown";
 import DropDownType from "./DropDownType.vue";
 import LeagueLegend from "./LeagueLegend";
 import ModalContent from "./ModalContent";
@@ -63,14 +69,15 @@ export default {
       goalDiffMath: Number
     };
   },
-  components: { DropDownType, LeagueLegend, ModalContent },
+  components: { DropDownType, LeagueLegend, ModalContent, LeagueDropDown },
   props: {
     standings: {
       type: Array
     },
     year: [String, Number],
+    typeOfGame: String,
     league: String,
-    typeOfGame: String
+    optionLeagues: Array
   },
   methods: {
     goalDiff(item1, item2) {
@@ -107,6 +114,9 @@ export default {
     },
     onDropDownType(typeObj) {
       this.$emit("standingType", typeObj);
+    },
+    onLeagueChange(leagueObj) {
+      this.$emit("onLeagueChange", leagueObj);
     }
   }
 };

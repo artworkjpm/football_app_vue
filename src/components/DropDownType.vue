@@ -1,34 +1,29 @@
 <template>
-  <div style="width: 398px">
-    <div class="row" style="padding: 0 15px;">
-      <div class="col-12">
-        <b-form-group>
-          <b-form-select v-model="currentLeague" :options="optionLeagues" @change="onChange()" />
-        </b-form-group>
-      </div>
-      <div class="col-6">
-        <b-form-group>
-          <b-form-select v-model="currentYear" :options="optionYears" @change="onChange()" />
-        </b-form-group>
-      </div>
-      <div class="col-6">
-        <b-form-group>
-          <b-form-select v-model="currentTypeOfGame" :options="options" @change="onChange()" />
-        </b-form-group>
-      </div>
+  <div class="row">
+    <div class="col-6 col-sm-12">
+      <b-form-group>
+        <b-form-select size="sm" v-model="currentYear" :options="optionYears" @change="onChange()" />
+      </b-form-group>
+    </div>
+    <div class="col-6 col-sm-12">
+      <b-form-group>
+        <b-form-select
+          size="sm"
+          v-model="currentTypeOfGame"
+          :options="options"
+          @change="onChange()"
+        />
+      </b-form-group>
     </div>
   </div>
 </template>
 <script>
-import leagues from "./LeagueListings";
 export default {
   name: "DropDownType",
   data() {
     return {
-      currentLeague: String,
       currentYear: Number,
       currentTypeOfGame: String,
-      optionLeagues: leagues,
       options: [
         { value: "TOTAL", text: "Total" },
         { value: "HOME", text: "Home" },
@@ -43,13 +38,11 @@ export default {
   },
   props: {
     year: [String, Number],
-    league: String,
     typeOfGame: String
   },
   methods: {
     onChange() {
       const typeObj = {
-        league: this.$data.currentLeague,
         standingType: this.$data.currentTypeOfGame,
         year: this.$data.currentYear
       };
@@ -58,7 +51,6 @@ export default {
   },
   created() {
     this.currentYear = this.$props.year;
-    this.currentLeague = this.$props.league;
     this.currentTypeOfGame = this.$props.typeOfGame;
   }
 };

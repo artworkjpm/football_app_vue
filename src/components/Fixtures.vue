@@ -1,15 +1,19 @@
 <template>
   <div class="row">
-    <div>
-      <div class="row" style="padding: 0 15px;">
-        <div class="col-12">
-          <b-form-group>
-            <b-form-select v-model="league" :options="optionLeagues" @change="onChange()" />
-          </b-form-group>
+    <div class="col-md-auto">
+      <div class="row">
+        <div class="col-md-auto">
+          <LeagueDropDown
+            :league="league"
+            :optionLeagues="optionLeagues"
+            @onLeagueChange="onLeagueChange"
+          />
         </div>
-        <div class="col-6">
+      </div>
+      <div class="row">
+        <div class="col-auto">
           <b-form-group>
-            <b-form-select v-model="status" :options="statusType" @change="onChange()" />
+            <b-form-select size="sm" v-model="status" :options="statusType" @change="onChange()" />
           </b-form-group>
         </div>
       </div>
@@ -41,16 +45,15 @@
   </div>
 </template>
 <script>
+import LeagueDropDown from "./LeagueDropDown";
 import moment from "moment";
 import getData from "../service/apiCalls";
-import leagues from "./LeagueListings";
 export default {
   name: "Fixtures",
+  components: { LeagueDropDown },
   data() {
     return {
       showSpinner: true,
-      league: "PL",
-      optionLeagues: leagues,
       newArrayFixtures: [],
       status: "SCHEDULED",
       statusType: [
@@ -63,10 +66,14 @@ export default {
       ]
     };
   },
+  props: {
+    league: String,
+    optionLeagues: Array
+  },
   methods: {
     getFixtures() {
       getData.getLeagueData
-        .get(this.league + "/matches?status=" + this.status)
+        .get(this.$props.league + "/matches?status=" + this.status)
         .then(response => {
           let fixtures = response.data.matches;
           this.newArray(fixtures);
@@ -118,6 +125,14 @@ export default {
     },
     onChange() {
       this.showSpinner = true;
+      this.getFixtures();
+    },
+    onLeagueChange(leagueObj) {
+      this.$emit("onLeagueChange", leagueObj);
+    }
+  },
+  watch: {
+    league() {
       this.getFixtures();
     }
   },

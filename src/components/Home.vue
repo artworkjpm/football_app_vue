@@ -18,14 +18,16 @@
           <LeagueTable
             :standings="standings"
             @standingType="onDropDownType"
+            @onLeagueChange="onLeagueChange"
             v-if="!showSpinner"
             :year="year"
             :league="league"
+            :optionLeagues="optionLeagues"
             :typeOfGame="typeOfGame"
           />
         </b-tab>
         <b-tab title="Fixtures">
-          <Fixtures />
+          <Fixtures :league="league" :optionLeagues="optionLeagues" />
         </b-tab>
         <b-tab title="Scorers">
           <Scorers />
@@ -35,6 +37,7 @@
   </div>
 </template>
 <script>
+import leagues from "./LeagueListings";
 import LeagueTable from "./LeagueTable";
 import Fixtures from "./Fixtures";
 import Scorers from "./Scorers";
@@ -55,6 +58,7 @@ export default {
       fixtures: [],
       year: Number,
       league: "PL",
+      optionLeagues: leagues,
       typeOfGame: "TOTAL",
       statusType: "SCHEDULED"
     };
@@ -94,11 +98,14 @@ export default {
     },
 
     onDropDownType(typeObj) {
-      this.league = typeObj.league;
       this.typeOfGame = typeObj.standingType;
       this.year = typeObj.year;
       this.getStandings();
       //console.log("typeObj: ", typeObj);
+    },
+    onLeagueChange(leagueObj) {
+      this.league = leagueObj.league;
+      this.getStandings();
     }
   },
   created() {
