@@ -1,17 +1,19 @@
 <template>
   <div>
-    <table class="table-responsive table small" v-for="(item, i) in coachArray" :key="i">
+    <table class="table-responsive table small">
       <thead class="alert-info">
-        <tr v-if="item.role === 'COACH'">
-          <th>Coach</th>
+        <tr>
+          <th>Staff</th>
+          <th>Role</th>
           <th>Nationality</th>
           <th>DOB</th>
           <th>Age</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="(item, i) in coachArray" :key="i">
           <td>{{item.name}}</td>
+          <td>{{item.role.replace("_", " ")}}</td>
           <td>{{item.nationality}}</td>
           <td>{{dob(item.dateOfBirth).dob}}</td>
           <td>{{dob(item.dateOfBirth).age}}</td>
@@ -105,7 +107,7 @@ export default {
       getData.getTeamResults
         .get(teamId.teamId + "/")
         .then(response => {
-          //console.log("getTeamInfo ", response.data);
+          console.log("getTeamInfo ", response.data);
           this.clubInfo = response.data;
           this.getCoach();
           this.getPlayers();
@@ -114,12 +116,12 @@ export default {
     },
     getCoach() {
       this.coachArray = this.clubInfo.squad.filter(item => {
-        return item.role === "COACH";
+        return item.role != "PLAYER";
       });
     },
     getPlayers() {
       let justPlayers = this.clubInfo.squad.filter(
-        item => item.role != "COACH"
+        item => item.role === "PLAYER"
       );
       justPlayers = Array.from(justPlayers, item => {
         return {

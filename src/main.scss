@@ -105,3 +105,11 @@ $grey: #c7c7c7;
 .smaller {
   font-size: 11px;
 }
+
+.clubName {
+  width: 38px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+  top: 3px;
+}

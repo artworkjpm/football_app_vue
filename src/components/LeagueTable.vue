@@ -31,7 +31,8 @@
           >
             <td>{{ item.position }}</td>
             <td>
-              <img :src="item.team.crestUrl" class="team-badge" />
+              <img :src="item.team.crestUrl ? item.team.crestUrl : 'No Image'" class="team-badge" />
+              <div class="clubName">{{item.team.name}}</div>
             </td>
             <td>{{item.playedGames}}</td>
             <td class="font-weight-bold">{{item.points}}</td>
