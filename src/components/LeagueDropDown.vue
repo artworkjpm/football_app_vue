@@ -1,7 +1,12 @@
 <template>
   <div>
     <b-form-group>
-      <b-form-select v-model="currentLeague" :options="optionLeagues" @change="onChange()" />
+      <b-form-select
+        size="sm"
+        v-model="currentLeague"
+        :options="optionLeagues"
+        @change="onChange()"
+      />
     </b-form-group>
   </div>
 </template>

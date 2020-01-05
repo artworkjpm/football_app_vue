@@ -33,6 +33,7 @@ $grey: #c7c7c7;
 .team-badge {
   height: 35px;
   display: block;
+  margin: 0 auto;
 }
 
 .team-badge-full {
@@ -105,9 +106,9 @@ $grey: #c7c7c7;
 }
 
 .clubName {
-  width: 38px;
   text-overflow: ellipsis;
   white-space: nowrap;
   position: relative;
   top: 3px;
+  text-align: center;
 }
