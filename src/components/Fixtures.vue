@@ -82,7 +82,7 @@ export default {
     },
     newArray(fixtures) {
       //console.log("fixtures looking for result: ", this.$props.fixtures);
-      let newArray = Array.from(fixtures, x => {
+      let newArray = fixtures.map(x => {
         return {
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY"),
           dateNative: x.utcDate,

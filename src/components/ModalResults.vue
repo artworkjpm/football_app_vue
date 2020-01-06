@@ -71,7 +71,7 @@ export default {
         .catch(error => console.log(error));
     },
     newArray(teamId) {
-      let newArray = Array.from(this.$data.results, x => {
+      let newArray = this.$data.results.map(x => {
         return {
           competition: x.competition.name,
           date: moment(x.utcDate).format("ddd, MMMM Do YYYY - HH:mm"),

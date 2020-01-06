@@ -123,7 +123,7 @@ export default {
       let justPlayers = this.clubInfo.squad.filter(
         item => item.role === "PLAYER"
       );
-      justPlayers = Array.from(justPlayers, item => {
+      justPlayers = justPlayers.map(item => {
         return {
           name: item.name,
           position: item.position,

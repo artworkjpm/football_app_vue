@@ -27,17 +27,25 @@
           />
         </b-tab>
         <b-tab title="Fixtures">
-          <Fixtures :league="league" :optionLeagues="optionLeagues" />
+          <Fixtures
+            :league="league"
+            :optionLeagues="optionLeagues"
+            @onLeagueChange="onLeagueChange"
+          />
         </b-tab>
         <b-tab title="Scorers">
-          <Scorers />
+          <Scorers
+            :league="league"
+            :optionLeagues="optionLeagues"
+            @onLeagueChange="onLeagueChange"
+          />
         </b-tab>
       </b-tabs>
     </div>
   </div>
 </template>
 <script>
-import leagues from "./LeagueListings";
+import options from "./DropDownOptions";
 import LeagueTable from "./LeagueTable";
 import Fixtures from "./Fixtures";
 import Scorers from "./Scorers";
@@ -58,7 +66,8 @@ export default {
       fixtures: [],
       year: Number,
       league: "PL",
-      optionLeagues: leagues,
+      optionLeagues: options.leagues,
+      optionSeason: options.optionYears,
       typeOfGame: "TOTAL",
       statusType: "SCHEDULED"
     };
