@@ -9,7 +9,6 @@
       <div>
         <div class="row">
           <DropDownSeasons :year="year" @currentYear="onDropDownYear" />
-
           <DropDownType @standingType="onDropDownType" :year="year" :typeOfGame="typeOfGame" />
         </div>
       </div>

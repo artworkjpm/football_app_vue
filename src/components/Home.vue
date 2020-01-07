@@ -108,6 +108,7 @@ export default {
     onDropDownType(typeObj) {
       this.typeOfGame = typeObj.standingType;
       //console.log("typeObj: ", typeObj);
+      this.getStandings();
     },
     onLeagueChange(leagueObj) {
       this.league = leagueObj.league;
