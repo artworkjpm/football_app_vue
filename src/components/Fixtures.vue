@@ -22,7 +22,7 @@
       <b-spinner label="Spinning" class="text-center" v-if="showSpinner"></b-spinner>
       <div v-if="!showSpinner">
         <div v-if="checkYearStatus">
-          We can only display games for the current {{yearWarning}}
+          We can only display SCHEDULED fixtures for the current {{yearWarning}}
           season
         </div>
         <table class="table-responsive table adjust" v-for="(item, i) in newArrayFixtures" :key="i">

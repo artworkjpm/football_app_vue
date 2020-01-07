@@ -21,14 +21,14 @@
           <tr>
             <th></th>
             <th></th>
-            <th>MP</th>
-            <th>Pts</th>
-            <th>W</th>
-            <th>L</th>
-            <th>D</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
+            <th v-b-tooltip title="Matches Played">MP</th>
+            <th v-b-tooltip title="Points">Pts</th>
+            <th v-b-tooltip title="Won">W</th>
+            <th v-b-tooltip title="Lost">L</th>
+            <th v-b-tooltip title="Drawn">D</th>
+            <th v-b-tooltip title="Goals For">GF</th>
+            <th v-b-tooltip title="Goals Against">GA</th>
+            <th v-b-tooltip title="Goal Difference">GD</th>
           </tr>
         </thead>
         <tbody>
