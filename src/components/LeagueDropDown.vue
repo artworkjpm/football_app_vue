@@ -11,16 +11,17 @@
   </div>
 </template>
 <script>
+import options from "./DropDownOptions";
 export default {
   name: "LeagueDropDown",
   data() {
     return {
-      currentLeague: String
+      currentLeague: String,
+      optionLeagues: options.leagues
     };
   },
   props: {
-    league: String,
-    optionLeagues: Array
+    league: String
   },
   methods: {
     onChange() {

@@ -6,8 +6,13 @@
         :optionLeagues="optionLeagues"
         @onLeagueChange="onLeagueChange"
       />
+      <div>
+        <div class="row">
+          <DropDownSeasons :year="year" @currentYear="onDropDownYear" />
 
-      <DropDownType @standingType="onDropDownType" :year="year" :typeOfGame="typeOfGame" />
+          <DropDownType @standingType="onDropDownType" :year="year" :typeOfGame="typeOfGame" />
+        </div>
+      </div>
     </div>
 
     <div class="col-auto">
@@ -58,6 +63,7 @@
 
 <script>
 import LeagueDropDown from "./LeagueDropDown";
+import DropDownSeasons from "./DropDownSeasons";
 import DropDownType from "./DropDownType.vue";
 import LeagueLegend from "./LeagueLegend";
 import ModalContent from "./ModalContent";
@@ -69,7 +75,13 @@ export default {
       goalDiffMath: Number
     };
   },
-  components: { DropDownType, LeagueLegend, ModalContent, LeagueDropDown },
+  components: {
+    DropDownType,
+    LeagueLegend,
+    ModalContent,
+    LeagueDropDown,
+    DropDownSeasons
+  },
   props: {
     standings: {
       type: Array
@@ -117,6 +129,9 @@ export default {
     },
     onLeagueChange(leagueObj) {
       this.$emit("onLeagueChange", leagueObj);
+    },
+    onDropDownYear(seasonObj) {
+      this.$emit("onYearChange", seasonObj);
     }
   }
 };

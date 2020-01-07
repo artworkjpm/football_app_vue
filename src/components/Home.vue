@@ -19,25 +19,27 @@
             :standings="standings"
             @standingType="onDropDownType"
             @onLeagueChange="onLeagueChange"
+            @onYearChange="onYearChange"
             v-if="!showSpinner"
             :year="year"
             :league="league"
-            :optionLeagues="optionLeagues"
             :typeOfGame="typeOfGame"
           />
         </b-tab>
         <b-tab title="Fixtures">
           <Fixtures
             :league="league"
-            :optionLeagues="optionLeagues"
             @onLeagueChange="onLeagueChange"
+            :year="year"
+            @onYearChange="onYearChange"
           />
         </b-tab>
         <b-tab title="Scorers">
           <Scorers
             :league="league"
-            :optionLeagues="optionLeagues"
+            :year="year"
             @onLeagueChange="onLeagueChange"
+            @onYearChange="onYearChange"
           />
         </b-tab>
       </b-tabs>
@@ -45,7 +47,6 @@
   </div>
 </template>
 <script>
-import options from "./DropDownOptions";
 import LeagueTable from "./LeagueTable";
 import Fixtures from "./Fixtures";
 import Scorers from "./Scorers";
@@ -66,8 +67,6 @@ export default {
       fixtures: [],
       year: Number,
       league: "PL",
-      optionLeagues: options.leagues,
-      optionSeason: options.optionYears,
       typeOfGame: "TOTAL",
       statusType: "SCHEDULED"
     };
@@ -101,19 +100,21 @@ export default {
           this.standings = response.data.standings[0].table;
 
           this.showSpinner = false;
-          console.log("standings: ", this.standings);
+          //console.log("standings: ", this.standings);
         })
         .catch(error => console.log(error));
     },
 
     onDropDownType(typeObj) {
       this.typeOfGame = typeObj.standingType;
-      this.year = typeObj.year;
-      this.getStandings();
       //console.log("typeObj: ", typeObj);
     },
     onLeagueChange(leagueObj) {
       this.league = leagueObj.league;
+      this.getStandings();
+    },
+    onYearChange(seasonObj) {
+      this.year = seasonObj.year;
       this.getStandings();
     }
   },
