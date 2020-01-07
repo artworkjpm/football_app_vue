@@ -107,7 +107,7 @@ export default {
       getData.getTeamResults
         .get(teamId.teamId + "/")
         .then(response => {
-          console.log("getTeamInfo ", response.data);
+          //console.log("getTeamInfo ", response.data);
           this.clubInfo = response.data;
           this.getCoach();
           this.getPlayers();
