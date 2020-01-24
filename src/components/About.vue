@@ -13,7 +13,11 @@
         <strong>The biggest limitation being the user can only make 9 calls a minute to their API.</strong>
       </p>
 
-      <p>Therefore, if you click around the tabs and teams more than 9 times in one minute, you'll likely get no loaded data.</p>
+      <p>
+        Therefore, if you click around the tabs and teams more than 9 times in one minute, you'll likely get no loaded data -
+        when this happens the best thing to do is
+        <strong>wait around 30 seconds for the API to refresh its limitations</strong> - then try to click on the item again.
+      </p>
     </div>
 
     <h4 class="mt-4">About JPM</h4>
