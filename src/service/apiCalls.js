@@ -1,6 +1,6 @@
 import axios from "axios";
 const headers = {
-  "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b"
+  "X-Auth-Token": process.env.VUE_APP_API_TOKEN
 }
 export default {
   getLeagueData: axios.create({
@@ -13,20 +13,4 @@ export default {
     timeout: 5000,
     headers
   })
-
-
-
 }
-
-/* const token = {
-    headers: { "X-Auth-Token": "54c0e6f1871244888493868bb4d3796b" }
-  };
-  axios
-    .get("http://api.football-data.org/v2/competitions/PL/standings", token)
-    .then(response => {
-      return (
-        console.log(response.data.standings[0].table),
-        (this.info = response.data.standings[0].table),
-        console.log("info:", this.info)
-      );
-    }); */
