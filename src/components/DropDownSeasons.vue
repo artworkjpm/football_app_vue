@@ -24,6 +24,8 @@ export default {
         year: this.$data.currentYear
       };
       this.$emit("currentYear", seasonObj);
+      
+      
     }
   },
 
@@ -36,4 +38,5 @@ export default {
     this.currentYear = this.$props.year;
   }
 };
+
 </script>
